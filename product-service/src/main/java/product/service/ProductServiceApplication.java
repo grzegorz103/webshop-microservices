@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Import;
 public class ProductServiceApplication {
 
     public static void main(String[] args) {
-        System.setProperty("spring.config.name", "product-service");
         SpringApplication.run(ProductServiceApplication.class, args);
     }
 
