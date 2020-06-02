@@ -7,12 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product {
+public class Category {
 
     private Long id;
 
     private String name;
-
-    private Long categoryId;
 
 }
