@@ -7,11 +7,11 @@ import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
 @EnableEurekaClient
-public class ServiceApplication {
+public class ProductServiceApplication {
 
     public static void main(String[] args) {
         System.setProperty("spring.config.name", "product-service");
-        SpringApplication.run(ServiceApplication.class, args);
+        SpringApplication.run(ProductServiceApplication.class, args);
     }
 
 }
