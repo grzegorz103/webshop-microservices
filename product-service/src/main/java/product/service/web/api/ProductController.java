@@ -1,9 +1,8 @@
 package product.service.web.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import product.service.domain.Category;
 import product.service.domain.Product;
@@ -34,6 +33,26 @@ public class ProductController {
                 .stream()
                 .map(e -> new ProductInfo(e.getId(), e.getName(), e.getCategoryId(), restTemplate.getForObject("http://CATEGORY-SERVICE/category/" + e.getCategoryId(), Category.class)))
                 .collect(Collectors.toList());
+    }
+
+    @PostMapping
+    public Product create(@RequestBody Product product) {
+        Product created = productService.create(product);
+        return new ProductInfo(created.getId(), created.getName(), created.getCategoryId(),
+                restTemplate.getForObject("http://CATEGORY-SERVICE/category/" + created.getCategoryId(), Category.class)
+        );
+    }
+
+    @PutMapping("/{id}")
+    public Product update(@RequestBody Product product,
+                          @PathVariable("id") Long id) {
+        return productService.update(id, product);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("id") Long id) {
+        productService.delete(id);
     }
 
 }

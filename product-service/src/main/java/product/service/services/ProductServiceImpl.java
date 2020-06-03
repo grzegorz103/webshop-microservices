@@ -26,4 +26,18 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.save(product);
     }
 
+    @Override
+    public Product update(Long id, Product product) {
+        Product fromDb = productRepository.findById(id)
+                .orElseThrow(IllegalArgumentException::new);
+        fromDb.setCategoryId(product.getCategoryId());
+        fromDb.setName(product.getName());
+        return productRepository.save(fromDb);
+    }
+
+    @Override
+    public void delete(Long id) {
+        productRepository.deleteById(id);
+    }
+
 }
