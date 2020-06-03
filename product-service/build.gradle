@@ -28,7 +28,9 @@ dependencies {
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.11.0'
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'com.h2database:h2'// https://mvnrepository.com/artifact/org.hibernate/hibernate-gradle-plugin
+    compile group: 'org.hibernate', name: 'hibernate-gradle-plugin', version: '5.4.17.Final'
+
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
