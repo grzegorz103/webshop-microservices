@@ -28,6 +28,7 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'org.postgresql:postgresql'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-amqp', version: '1.4.0.RELEASE'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.11.0'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
