@@ -1,10 +1,11 @@
 package product.service.web.api;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.netflix.discovery.converters.Auto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import product.service.domain.Category;
+import product.service.services.CategoryService;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,28 +15,37 @@ import java.util.Objects;
 @RequestMapping("/category")
 public class CategoryController {
 
-    private static List<Category> categories;
+    private final CategoryService categoryService;
 
-    //TODO
-    static {
-        categories = Arrays.asList(
-                new Category(1L, "Test1"),
-                new Category(2L, "Test1"),
-                new Category(3L, "Test1")
-        );
+    public CategoryController(CategoryService categoryService) {
+        this.categoryService = categoryService;
     }
 
     @GetMapping
     public List<Category> getAll() {
-        return categories;
+        return categoryService.getAll();
     }
 
     @GetMapping("/{id}")
     public Category getById(@PathVariable Long id) {
-        return categories.stream()
-                .filter(e -> Objects.equals(e.getId(), id))
-                .findFirst()
-                .orElseThrow(IllegalArgumentException::new);
+        return categoryService.getById(id);
+    }
+
+    @PostMapping
+    public Category create(@RequestBody Category category) {
+        return categoryService.create(category);
+    }
+
+    @PutMapping("/{id}")
+    public Category update(@RequestBody Category category,
+                           @PathVariable("id") Long id) {
+        return categoryService.update(id, category);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("id") Long id) {
+        categoryService.delete(id);
     }
 
 }
