@@ -23,19 +23,22 @@ public class ProductController {
 
     private final ProductService productService;
 
-    public ProductController(RestTemplate restTemplate, ProductService productService) {
+    private final RabbitTemplate rabbitTemplate;
+
+    public ProductController(RestTemplate restTemplate,
+                             ProductService productService,
+                             RabbitTemplate rabbitTemplate) {
         this.restTemplate = restTemplate;
         this.productService = productService;
+        this.rabbitTemplate = rabbitTemplate;
     }
 
-    @Autowired
-    RabbitTemplate rabbitTemplate;
 
     @GetMapping
     public List<Product> findAll() {
         return productService.findAll()
                 .stream()
-                .map(e -> new ProductInfo(e.getId(), e.getName(), e.getCategoryId(), restTemplate.getForObject("http://CATEGORY-SERVICE/category/" + e.getCategoryId(), Category.class)))
+                .map(e -> new ProductInfo(e.getId(), e.getName(), e.getCategoryId(), restTemplate.getForObject("http://CATEGORY-SERVICE/categories/" + e.getCategoryId(), Category.class)))
                 .collect(Collectors.toList());
     }
 
@@ -44,7 +47,7 @@ public class ProductController {
         Product created = productService.create(product);
         rabbitTemplate.convertAndSend("create-exchange", "info", "Create new product");
         return new ProductInfo(created.getId(), created.getName(), created.getCategoryId(),
-                restTemplate.getForObject("http://CATEGORY-SERVICE/category/" + created.getCategoryId(), Category.class)
+                restTemplate.getForObject("http://CATEGORY-SERVICE/categories/" + created.getCategoryId(), Category.class)
         );
     }
 
