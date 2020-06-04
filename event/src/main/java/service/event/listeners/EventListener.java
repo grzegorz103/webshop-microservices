@@ -1,21 +1,37 @@
 package service.event.listeners;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.annotation.RabbitHandler;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import service.event.models.CreateEntityInfo;
 
+import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
 
+@RabbitListener(queues = "spring-boot")
 @Component
+@Slf4j
 public class EventListener {
 
-    private CountDownLatch latch = new CountDownLatch(1);
+    private final ObjectMapper objectMapper;
 
-    public void receiveMessage(String message) {
-        System.out.println(message);
-        latch.countDown();
+    public EventListener(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
     }
 
-    public CountDownLatch getLatch() {
-        return this.latch;
+    @RabbitHandler
+    @SuppressWarnings("unchecked")
+    public void receiveMessage(String message) {
+        try {
+            CreateEntityInfo<String> in = objectMapper.readValue(message, CreateEntityInfo.class);
+            log.info(Objects.requireNonNull(in).getMessage());
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
 }

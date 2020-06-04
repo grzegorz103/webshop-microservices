@@ -1,13 +1,17 @@
 package product.service.web.api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import product.service.ProductServiceApplication;
 import product.service.domain.Category;
 import product.service.domain.Product;
 import product.service.domain.ProductInfo;
+import product.service.domain.rabbitmq.CreateEntityInfo;
 import product.service.services.ProductService;
 
 import java.util.ArrayList;
@@ -25,12 +29,16 @@ public class ProductController {
 
     private final RabbitTemplate rabbitTemplate;
 
+    private final ObjectMapper objectMapper;
+
     public ProductController(RestTemplate restTemplate,
                              ProductService productService,
-                             RabbitTemplate rabbitTemplate) {
+                             RabbitTemplate rabbitTemplate,
+                             ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
         this.productService = productService;
         this.rabbitTemplate = rabbitTemplate;
+        this.objectMapper = objectMapper;
     }
 
 
@@ -43,9 +51,12 @@ public class ProductController {
     }
 
     @PostMapping
-    public Product create(@RequestBody Product product) {
+    public Product create(@RequestBody Product product) throws JsonProcessingException {
         Product created = productService.create(product);
-        rabbitTemplate.convertAndSend("create-exchange", "info", "Create new product");
+        rabbitTemplate.convertAndSend("create-exchange",
+                "info",
+                objectMapper.writeValueAsString(new CreateEntityInfo<>("Create new " + created.getClass().getSimpleName().toLowerCase())));
+
         return new ProductInfo(created.getId(), created.getName(), created.getCategoryId(),
                 restTemplate.getForObject("http://CATEGORY-SERVICE/categories/" + created.getCategoryId(), Category.class)
         );
