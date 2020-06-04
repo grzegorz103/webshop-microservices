@@ -1,21 +1,20 @@
 package service.event.listeners;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.annotation.RabbitHandler;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.CountDownLatch;
 
+@RabbitListener(queues = "spring-boot")
 @Component
+@Slf4j
 public class EventListener {
 
-    private CountDownLatch latch = new CountDownLatch(1);
-
+    @RabbitHandler
     public void receiveMessage(String message) {
-        System.out.println(message);
-        latch.countDown();
-    }
-
-    public CountDownLatch getLatch() {
-        return this.latch;
+        log.info(message);
     }
 
 }

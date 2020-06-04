@@ -32,19 +32,4 @@ public class RabbitMQConfig {
         return BindingBuilder.bind(queue).to(exchange).with("info");
     }
 
-    @Bean
-    SimpleMessageListenerContainer container(ConnectionFactory connectionFactory,
-                                             MessageListenerAdapter listenerAdapter) {
-        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-        container.setConnectionFactory(connectionFactory);
-        container.setQueueNames(queueName);
-        container.setMessageListener(listenerAdapter);
-        return container;
-    }
-
-    @Bean
-    MessageListenerAdapter listenerAdapter(EventListener receiver) {
-        return new MessageListenerAdapter(receiver, "receiveMessage");
-    }
-
-}
+  }
