@@ -1,6 +1,7 @@
 package product.service.web.api;
 
 import com.netflix.discovery.converters.Auto;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -12,13 +13,17 @@ import java.util.List;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/category")
+@RequestMapping("/categories")
 public class CategoryController {
 
     private final CategoryService categoryService;
 
-    public CategoryController(CategoryService categoryService) {
+    private final RabbitTemplate rabbitTemplate;
+
+    public CategoryController(CategoryService categoryService,
+                              RabbitTemplate rabbitTemplate) {
         this.categoryService = categoryService;
+        this.rabbitTemplate = rabbitTemplate;
     }
 
     @GetMapping
@@ -33,6 +38,7 @@ public class CategoryController {
 
     @PostMapping
     public Category create(@RequestBody Category category) {
+        rabbitTemplate.convertAndSend("create-exchange", "info", "Create new category");
         return categoryService.create(category);
     }
 

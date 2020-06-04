@@ -1,5 +1,6 @@
 package product.service.web.api;
 
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -22,24 +23,31 @@ public class ProductController {
 
     private final ProductService productService;
 
-    public ProductController(RestTemplate restTemplate, ProductService productService) {
+    private final RabbitTemplate rabbitTemplate;
+
+    public ProductController(RestTemplate restTemplate,
+                             ProductService productService,
+                             RabbitTemplate rabbitTemplate) {
         this.restTemplate = restTemplate;
         this.productService = productService;
+        this.rabbitTemplate = rabbitTemplate;
     }
+
 
     @GetMapping
     public List<Product> findAll() {
         return productService.findAll()
                 .stream()
-                .map(e -> new ProductInfo(e.getId(), e.getName(), e.getCategoryId(), restTemplate.getForObject("http://CATEGORY-SERVICE/category/" + e.getCategoryId(), Category.class)))
+                .map(e -> new ProductInfo(e.getId(), e.getName(), e.getCategoryId(), restTemplate.getForObject("http://CATEGORY-SERVICE/categories/" + e.getCategoryId(), Category.class)))
                 .collect(Collectors.toList());
     }
 
     @PostMapping
     public Product create(@RequestBody Product product) {
         Product created = productService.create(product);
+        rabbitTemplate.convertAndSend("create-exchange", "info", "Create new product");
         return new ProductInfo(created.getId(), created.getName(), created.getCategoryId(),
-                restTemplate.getForObject("http://CATEGORY-SERVICE/category/" + created.getCategoryId(), Category.class)
+                restTemplate.getForObject("http://CATEGORY-SERVICE/categories/" + created.getCategoryId(), Category.class)
         );
     }
 
