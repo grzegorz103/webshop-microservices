@@ -1,5 +1,6 @@
 package product.service.web.api;
 
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,9 @@ public class ProductController {
         this.productService = productService;
     }
 
+    @Autowired
+    RabbitTemplate rabbitTemplate;
+
     @GetMapping
     public List<Product> findAll() {
         return productService.findAll()
@@ -38,6 +42,7 @@ public class ProductController {
     @PostMapping
     public Product create(@RequestBody Product product) {
         Product created = productService.create(product);
+        rabbitTemplate.convertAndSend("create-exchange", "info", "Create new product");
         return new ProductInfo(created.getId(), created.getName(), created.getCategoryId(),
                 restTemplate.getForObject("http://CATEGORY-SERVICE/category/" + created.getCategoryId(), Category.class)
         );
