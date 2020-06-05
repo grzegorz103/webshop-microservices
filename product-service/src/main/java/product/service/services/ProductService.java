@@ -1,16 +1,16 @@
 package product.service.services;
 
-import product.service.domain.Product;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import product.service.domain.dto.ProductDTO;
 
 public interface ProductService {
 
-    List<Product> findAll();
+    Page<ProductDTO> findAll(Pageable pageable);
 
-    Product create(Product product);
+    ProductDTO create(ProductDTO product);
 
-    Product update(Long id, Product product);
+    ProductDTO update(Long id, ProductDTO product);
 
     void delete(Long id);
 }

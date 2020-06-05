@@ -13,6 +13,6 @@ public class ProductDTO {
 
     private String name;
 
-    private String categoryId;
+    private CategoryDTO category;
 
 }
