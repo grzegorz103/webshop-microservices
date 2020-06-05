@@ -8,16 +8,16 @@ import product.service.services.category.CategoryDTO;
 import product.service.services.product.ProductDTO;
 
 @Mapper(componentModel = "spring")
-public interface ProductMapper {
+public interface CategoryMapper {
 
-    Product toModel(ProductDTO productDTO);
+    CategoryDTO toDTO(Category category);
 
-    ProductDTO toDTO(Product product);
-
-    @Mapping(target = "products", ignore = true)
     Category toModel(CategoryDTO categoryDTO);
 
-    @Mapping(target = "products", ignore = true)
-    CategoryDTO toDTO(Category category);
+    @Mapping(target = "category", ignore = true)
+    ProductDTO toDTO( Product product);
+
+    @Mapping(target = "category", ignore = true)
+    Product toModel(ProductDTO productDTO);
 
 }
