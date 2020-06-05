@@ -3,8 +3,8 @@ package product.service.persistence.product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
-import product.service.services.product.ProductDTO;
 import product.service.mappers.ProductMapper;
+import product.service.services.product.ProductDTO;
 
 @Component
 public class ProductProviderImpl implements ProductProvider {

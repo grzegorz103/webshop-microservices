@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import product.service.services.category.CategoryDTO;
 import product.service.services.category.CategoryService;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {

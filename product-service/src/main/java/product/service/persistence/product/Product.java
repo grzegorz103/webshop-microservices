@@ -1,11 +1,10 @@
 package product.service.persistence.product;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 import product.service.persistence.category.Category;
 
 import javax.persistence.*;
@@ -23,8 +22,6 @@ public class Product {
     private Long id;
 
     private String name;
-
-    private Long categoryId;
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)

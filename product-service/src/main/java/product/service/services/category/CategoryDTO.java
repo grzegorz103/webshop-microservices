@@ -3,7 +3,7 @@ package product.service.services.category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import product.service.persistence.product.Product;
+import product.service.services.product.ProductDTO;
 
 import java.util.List;
 
@@ -16,6 +16,6 @@ public class CategoryDTO {
 
     private String name;
 
-    private List<Product> products;
+    private List<ProductDTO> products;
 
 }

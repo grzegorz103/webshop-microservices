@@ -8,8 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import product.service.services.product.ProductDTO;
 import product.service.events.CreateEntityInfo;
+import product.service.services.product.ProductDTO;
 import product.service.services.product.ProductService;
 
 

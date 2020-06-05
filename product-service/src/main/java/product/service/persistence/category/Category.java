@@ -1,6 +1,7 @@
 package product.service.persistence.category;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import product.service.persistence.product.Product;
@@ -12,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 @Table(name = "categories")
 public class Category {
 
@@ -21,7 +23,9 @@ public class Category {
 
     private String name;
 
-    @OneToMany(mappedBy = "cart")
+    @OneToMany(mappedBy = "category", cascade = {
+            CascadeType.PERSIST
+    },fetch = FetchType.EAGER)
     private List<Product> products;
 
 }

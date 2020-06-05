@@ -1,24 +1,39 @@
 package product.service.persistence;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import product.service.persistence.category.Category;
+import product.service.persistence.category.CategoryRepository;
 import product.service.persistence.product.Product;
+import product.service.persistence.product.ProductRepository;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class Initializer {
 
-    private final Product.ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
 
-    public Initializer(Product.ProductRepository productRepository) {
+    private final ProductRepository productRepository;
+
+    public Initializer(CategoryRepository categoryRepository,
+                       ProductRepository productRepository) {
+        this.categoryRepository = categoryRepository;
         this.productRepository = productRepository;
     }
 
+
     @PostConstruct
     public void initDb() {
-        productRepository.save(Product.builder().name("test1").categoryId(1L).build());
-        productRepository.save(Product.builder().name("test2").categoryId(2L).build());
-        productRepository.save(Product.builder().name("test2").categoryId(3L).build());
+        Category cat1 = categoryRepository.save(Category.builder().name("cat1").products(new ArrayList<>()).build());
+        Category cat2 = categoryRepository.save(Category.builder().name("cat2").products(new ArrayList<>()).build());
+        Category cat3 = categoryRepository.save(Category.builder().name("cat3").products(new ArrayList<>()).build());
+
+        productRepository.save(Product.builder().name("test1").category(cat1).build());
+        productRepository.save(Product.builder().name("test2").category(cat2).build());
+        productRepository.save(Product.builder().name("test2").category(cat3).build());
     }
 
 }

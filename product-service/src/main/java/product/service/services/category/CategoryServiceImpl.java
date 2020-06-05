@@ -5,6 +5,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import product.service.persistence.category.CategoryProvider;
 
+import java.util.ArrayList;
+
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
@@ -25,6 +27,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDTO create(CategoryDTO category) {
+        category.setProducts(new ArrayList<>());
         return categoryProvider.save(category);
     }
 

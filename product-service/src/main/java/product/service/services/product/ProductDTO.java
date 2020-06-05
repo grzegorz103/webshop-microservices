@@ -1,9 +1,10 @@
 package product.service.services.product;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import product.service.persistence.category.CategoryDTO;
+import lombok.ToString;
 import product.service.services.category.CategoryDTO;
 
 @Data
@@ -15,6 +16,6 @@ public class ProductDTO {
 
     private String name;
 
-    private CategoryDTO categoryDTO;
+    private CategoryDTO category;
 
 }
