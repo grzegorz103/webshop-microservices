@@ -1,17 +1,10 @@
-package product.service.services;
+package product.service.services.product;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import product.service.domain.Product;
-import product.service.domain.dto.CategoryDTO;
-import product.service.domain.dto.ProductDTO;
-import product.service.persistence.ProductRepository;
-import product.service.persistence.providers.ProductProvider;
-
-import java.util.List;
+import product.service.persistence.product.ProductProvider;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -28,35 +21,20 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<ProductDTO> findAll(Pageable pageable) {
-        Page<ProductDTO> products = productProvider.getAll(pageable);
-        products.get()
-                .forEach(this::fetchCategory);
-        return products;
-    }
-
-    private void fetchCategory(ProductDTO productDTO) {
-        productDTO.setCategory(
-                restTemplate.getForObject("http://CATEGORY-SERVICE/categories/" + productDTO.getCategory().getId(), CategoryDTO.class)
-        );
+        return productProvider.getAll(pageable);
     }
 
     @Override
     public ProductDTO create(ProductDTO productDTO) {
-        ProductDTO saved = productProvider.save(productDTO);
-        if (saved.getCategory() != null) {
-            this.fetchCategory(saved);
-        }
-
-        return saved;
+        return productProvider.save(productDTO);
     }
 
     @Override
     public ProductDTO update(Long id, ProductDTO productDTO) {
         ProductDTO fromDb = productProvider.getOne(id);
         fromDb.setName(productDTO.getName());
-        fromDb.setCategory(productDTO.getCategory());
+        fromDb.setCategoryDTO(productDTO.getCategoryDTO());
         productProvider.save(fromDb);
-        this.fetchCategory(fromDb);
         return fromDb;
     }
 

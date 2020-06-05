@@ -8,10 +8,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-import product.service.domain.Product;
-import product.service.domain.dto.ProductDTO;
-import product.service.domain.rabbitmq.CreateEntityInfo;
-import product.service.services.ProductService;
+import product.service.services.product.ProductDTO;
+import product.service.events.CreateEntityInfo;
+import product.service.services.product.ProductService;
 
 
 @RestController

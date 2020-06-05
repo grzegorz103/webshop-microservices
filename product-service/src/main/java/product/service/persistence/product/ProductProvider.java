@@ -1,8 +1,8 @@
-package product.service.persistence.providers;
+package product.service.persistence.product;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import product.service.domain.dto.ProductDTO;
+import product.service.services.product.ProductDTO;
 
 public interface ProductProvider {
 
@@ -13,4 +13,5 @@ public interface ProductProvider {
     ProductDTO save(ProductDTO productDTO);
 
     void delete(Long id);
+
 }

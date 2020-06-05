@@ -1,10 +1,12 @@
-package product.service.domain;
+package product.service.persistence.category;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import product.service.persistence.product.Product;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -18,5 +20,8 @@ public class Category {
     private Long id;
 
     private String name;
+
+    @OneToMany(mappedBy = "cart")
+    private List<Product> products;
 
 }

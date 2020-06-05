@@ -1,17 +1,16 @@
 package product.service.persistence;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import product.service.domain.Product;
+import product.service.persistence.product.Product;
 
 import javax.annotation.PostConstruct;
 
 @Component
 public class Initializer {
 
-    private final ProductRepository productRepository;
+    private final Product.ProductRepository productRepository;
 
-    public Initializer(ProductRepository productRepository) {
+    public Initializer(Product.ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 

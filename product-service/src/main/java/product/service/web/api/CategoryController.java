@@ -1,16 +1,14 @@
 package product.service.web.api;
 
-import com.netflix.discovery.converters.Auto;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import product.service.domain.Category;
-import product.service.services.CategoryService;
+import product.service.services.category.CategoryDTO;
+import product.service.services.category.CategoryService;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/categories")
@@ -27,24 +25,24 @@ public class CategoryController {
     }
 
     @GetMapping
-    public List<Category> getAll() {
-        return categoryService.getAll();
+    public Page<CategoryDTO> getAll(Pageable pageable) {
+        return categoryService.getAll(pageable);
     }
 
     @GetMapping("/{id}")
-    public Category getById(@PathVariable Long id) {
+    public CategoryDTO getById(@PathVariable Long id) {
         return categoryService.getById(id);
     }
 
     @PostMapping
-    public Category create(@RequestBody Category category) {
+    public CategoryDTO create(@RequestBody CategoryDTO category) {
         rabbitTemplate.convertAndSend("create-exchange", "info", "Create new category");
         return categoryService.create(category);
     }
 
     @PutMapping("/{id}")
-    public Category update(@RequestBody Category category,
-                           @PathVariable("id") Long id) {
+    public CategoryDTO update(@RequestBody CategoryDTO category,
+                              @PathVariable("id") Long id) {
         return categoryService.update(id, category);
     }
 
@@ -55,3 +53,4 @@ public class CategoryController {
     }
 
 }
+

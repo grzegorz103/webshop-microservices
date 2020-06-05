@@ -1,8 +1,7 @@
-package product.service.services;
+package product.service.services.product;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import product.service.domain.dto.ProductDTO;
 
 public interface ProductService {
 

@@ -1,8 +1,10 @@
-package product.service.domain.dto;
+package product.service.services.product;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import product.service.persistence.category.CategoryDTO;
+import product.service.services.category.CategoryDTO;
 
 @Data
 @NoArgsConstructor
@@ -13,6 +15,6 @@ public class ProductDTO {
 
     private String name;
 
-    private CategoryDTO category;
+    private CategoryDTO categoryDTO;
 
 }

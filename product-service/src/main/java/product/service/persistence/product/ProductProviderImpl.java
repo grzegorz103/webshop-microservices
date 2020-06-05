@@ -1,14 +1,10 @@
-package product.service.persistence.providers;
+package product.service.persistence.product;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
-import product.service.domain.Product;
-import product.service.domain.dto.ProductDTO;
+import product.service.services.product.ProductDTO;
 import product.service.mappers.ProductMapper;
-import product.service.persistence.ProductRepository;
-
-import java.util.List;
 
 @Component
 public class ProductProviderImpl implements ProductProvider {

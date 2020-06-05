@@ -1,4 +1,4 @@
-package product.service.domain.rabbitmq;
+package product.service.events;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
