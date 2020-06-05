@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class CreateEntityInfo<T> implements Serializable {
+public class EventInfo<T> implements Serializable {
 
     private T message;
 

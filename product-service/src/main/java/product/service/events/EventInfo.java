@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateEntityInfo<T extends Serializable> implements Serializable {
+public class EventInfo<T extends Serializable> implements Serializable {
 
     private T message;
 
