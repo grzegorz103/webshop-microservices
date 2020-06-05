@@ -52,7 +52,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO update(Long id, ProductDTO productDTO) {
-        return productProvider.save(productDTO);
+        ProductDTO fromDb = productProvider.getOne(id);
+        fromDb.setName(productDTO.getName());
+        fromDb.setCategory(productDTO.getCategory());
+        productProvider.save(fromDb);
+        this.fetchCategory(fromDb);
+        return fromDb;
     }
 
     @Override
