@@ -4,9 +4,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import product.service.events.Event;
+import product.service.events.EventFactory;
 import product.service.events.EventInfo;
 import product.service.events.EventPublisher;
 import product.service.persistence.category.CategoryProvider;
+import product.service.persistence.product.Product;
 import product.service.persistence.product.ProductProvider;
 
 @Service
@@ -34,7 +36,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDTO create(ProductDTO productDTO) {
         productDTO.setCategory(categoryProvider.getOne(productDTO.getCategory().getId()));
-        eventPublisher.publish(new Event<>(new EventInfo<>("Create cos"),"create-exchange","info"));
+        eventPublisher.publish(
+                EventFactory.create("Create new " + Product.class.getSimpleName(), "create-exchange", "info")
+        );
+
         return productProvider.save(productDTO);
     }
 
