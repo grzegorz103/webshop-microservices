@@ -20,6 +20,7 @@ repositories {
 
 ext {
     set('springCloudVersion', "Hoxton.SR5")
+    mapstructVersion = "1.4.0.Beta1"
 }
 
 dependencies {
@@ -32,6 +33,9 @@ dependencies {
     compile group: 'org.hibernate', name: 'hibernate-gradle-plugin', version: '5.4.17.Final'
 // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-amqp
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-amqp', version: '1.4.0.RELEASE'
+    implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+    testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
