@@ -37,6 +37,7 @@ public class CategoryController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public CategoryDTO create(@RequestBody CategoryDTO category) {
         eventPublisher.publish(EventFactory.create("Create new " + Category.class.getSimpleName(), "create-exchange", "info"));
 
