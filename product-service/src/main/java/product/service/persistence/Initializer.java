@@ -1,6 +1,5 @@
 package product.service.persistence;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import product.service.persistence.category.Category;
 import product.service.persistence.category.CategoryRepository;
@@ -9,7 +8,6 @@ import product.service.persistence.product.ProductRepository;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class Initializer {
