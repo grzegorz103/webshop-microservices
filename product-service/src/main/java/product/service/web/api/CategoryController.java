@@ -1,10 +1,14 @@
 package product.service.web.api;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import product.service.events.EventFactory;
+import product.service.events.EventPublisher;
+import product.service.persistence.category.Category;
 import product.service.services.category.CategoryDTO;
 import product.service.services.category.CategoryService;
 
@@ -14,12 +18,12 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
-    private final RabbitTemplate rabbitTemplate;
+    private final EventPublisher eventPublisher;
 
     public CategoryController(CategoryService categoryService,
-                              RabbitTemplate rabbitTemplate) {
+                              EventPublisher eventPublisher) {
         this.categoryService = categoryService;
-        this.rabbitTemplate = rabbitTemplate;
+        this.eventPublisher = eventPublisher;
     }
 
     @GetMapping
@@ -34,7 +38,8 @@ public class CategoryController {
 
     @PostMapping
     public CategoryDTO create(@RequestBody CategoryDTO category) {
-        rabbitTemplate.convertAndSend("create-exchange", "info", "Create new category");
+        eventPublisher.publish(EventFactory.create("Create new " + Category.class.getSimpleName(), "create-exchange", "info"));
+
         return categoryService.create(category);
     }
 
