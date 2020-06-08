@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import service.event.models.EventInfo;
 import service.event.service.EventService;
 
+import java.time.Instant;
 import java.util.Objects;
 
 @RabbitListener(queues = "spring-boot")
@@ -32,6 +33,7 @@ public class EventListener {
     public void receiveMessage(String message) {
         try {
             EventInfo<String> in = objectMapper.readValue(message, EventInfo.class);
+            in.setCreationDate(Instant.now());
             eventService.add(in);
             log.info(Objects.requireNonNull(in).getMessage());
         } catch (JsonProcessingException e) {
