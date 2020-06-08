@@ -12,17 +12,25 @@ import java.util.Objects;
 @Service
 public class EventServiceImpl implements EventService {
 
-    @Autowired
-    private EventStateProvider eventStateProvider;
+    private final EventStateProvider eventStateProvider;
+
+    public EventServiceImpl(EventStateProvider eventStateProvider) {
+        this.eventStateProvider = eventStateProvider;
+    }
 
     @Override
     public EventInfo<? extends Serializable> add(EventInfo<? extends Serializable> event) {
         Objects.requireNonNull(event);
-        return null;
+        return eventStateProvider.add(event);
     }
 
     @Override
-    public Collection<?> getAll() {
-        return null;
+    public Collection<EventInfo<?>> getAll() {
+        return eventStateProvider.getAll();
+    }
+
+    @Override
+    public void deleteAll() {
+        eventStateProvider.deleteAll();
     }
 }

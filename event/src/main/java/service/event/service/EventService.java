@@ -9,6 +9,8 @@ public interface EventService {
 
     EventInfo<? extends Serializable> add(EventInfo<? extends Serializable> event);
 
-    Collection<?> getAll();
+    Collection<EventInfo<?>> getAll();
+
+    void deleteAll();
 
 }
