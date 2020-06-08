@@ -1,0 +1,28 @@
+package service.event.providers;
+
+import org.springframework.stereotype.Component;
+import service.event.models.EventInfo;
+
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+
+@Component
+public class EventStateProviderImpl implements EventStateProvider {
+
+    private List<EventInfo<?>> events = new LinkedList<>();
+
+
+    @Override
+    public EventInfo<? extends Serializable> add(EventInfo<? extends Serializable> event) {
+        events.add(event);
+        return event;
+    }
+
+    @Override
+    public Collection<EventInfo<?>> getAll() {
+        return events;
+    }
+    
+}
