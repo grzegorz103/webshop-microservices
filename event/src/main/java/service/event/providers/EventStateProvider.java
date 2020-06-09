@@ -4,6 +4,7 @@ import service.event.models.EventInfo;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.function.Predicate;
 
 public interface EventStateProvider {
 
@@ -12,5 +13,7 @@ public interface EventStateProvider {
     Collection<EventInfo<?>> getAll();
 
     void deleteAll();
+
+    void deleteIf(Predicate<EventInfo<?>> predicate);
 
 }
