@@ -32,6 +32,7 @@ public class EventStateProviderImplTest {
     void add() {
         final int beforeSize = this.eventStateProvider.getAll().size();
         this.eventStateProvider.add(new EventInfo<>("Test4", Instant.now()));
+
         assertThat(this.eventStateProvider.getAll().size()).isEqualTo(beforeSize + 1);
         assertThat(this.eventStateProvider.getAll().size()).isNotEqualTo(beforeSize);
     }
@@ -45,6 +46,7 @@ public class EventStateProviderImplTest {
     void deleteAll() {
         this.eventStateProvider.deleteAll();
         Collection<EventInfo<?>> all = this.eventStateProvider.getAll();
+
         assertThat(all).isNotNull();
         assertThat(all).isEmpty();
         assertThat(all.size()).isZero();
@@ -55,8 +57,10 @@ public class EventStateProviderImplTest {
         Collection<EventInfo<?>> all = this.eventStateProvider.getAll();
         final int beforeSize = all.size();
         Predicate<EventInfo<?>> deletePredicate = eventInfo -> Objects.equals(eventInfo.getMessage(), "Test");
+
         this.eventStateProvider.deleteIf(deletePredicate);
         Collection<EventInfo<?>> afterDelete = this.eventStateProvider.getAll();
+
         assertThat(afterDelete.size()).isEqualTo(beforeSize - 1);
         assertThat(afterDelete).noneMatch(deletePredicate);
     }
