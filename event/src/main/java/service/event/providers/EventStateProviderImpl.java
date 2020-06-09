@@ -4,8 +4,10 @@ import org.springframework.stereotype.Component;
 import service.event.models.EventInfo;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.function.Predicate;
 
 @Component
 public class EventStateProviderImpl implements EventStateProvider {
@@ -26,6 +28,11 @@ public class EventStateProviderImpl implements EventStateProvider {
     @Override
     public void deleteAll() {
         events.clear();
+    }
+
+    @Override
+    public void deleteIf(Predicate<EventInfo<?>> predicate) {
+        events.removeIf(predicate);
     }
 
 }
