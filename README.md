@@ -16,3 +16,5 @@ Application built in microservices architecture.
 - Hibernate
 - Gradle/Maven
 - H2, Lombok
+- JUnit, Mockito
+- Swagger
