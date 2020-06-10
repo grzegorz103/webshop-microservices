@@ -16,7 +16,7 @@ public class SwaggerConfig implements SwaggerResourcesProvider {
     @Override
     public List<SwaggerResource> get() {
         return Arrays.asList(
-                swaggerResource("product-service", "/products/api-docs", "2.0")
+                swaggerResource("product-service", "/products/v2/api-docs", "2.0")
         );
     }
 
