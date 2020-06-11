@@ -17,7 +17,8 @@ public class SwaggerConfig implements SwaggerResourcesProvider {
     public List<SwaggerResource> get() {
         return Arrays.asList(
                 swaggerResource("product-service", "/products/v2/api-docs", "2.0"),
-                swaggerResource("event-service", "/events/v2/api-docs", "2.0")
+                swaggerResource("event-service", "/events/v2/api-docs", "2.0"),
+                swaggerResource("price-service", "/prices/v2/api-docs", "2.0")
         );
     }
 
