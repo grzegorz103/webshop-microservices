@@ -1,13 +1,18 @@
 package product.service.services.product;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import product.service.events.CreatePriceEvent;
 import product.service.events.EventFactory;
 import product.service.events.EventPublisher;
 import product.service.persistence.category.CategoryProvider;
 import product.service.persistence.product.Product;
 import product.service.persistence.product.ProductProvider;
+
+import java.math.BigDecimal;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -16,19 +21,28 @@ public class ProductServiceImpl implements ProductService {
 
     private final CategoryProvider categoryProvider;
 
+    private final RestTemplate restTemplate;
+
     private final EventPublisher eventPublisher;
 
     public ProductServiceImpl(ProductProvider productProvider,
                               CategoryProvider categoryProvider,
-                              EventPublisher eventPublisher) {
+                              EventPublisher eventPublisher,
+                              RestTemplate restTemplate) {
         this.productProvider = productProvider;
         this.categoryProvider = categoryProvider;
         this.eventPublisher = eventPublisher;
+        this.restTemplate = restTemplate;
     }
 
     @Override
     public Page<ProductDTO> findAll(Pageable pageable) {
-        return productProvider.getAll(pageable);
+        return productProvider.getAll(pageable)
+                .map(productDTO -> {
+                            productDTO.setPrice(restTemplate.getForObject("http://PRICE-SERVICE/prices/" + productDTO.getId() + "/price", BigDecimal.class));
+                            return productDTO;
+                        }
+                );
     }
 
     @Override
@@ -38,7 +52,14 @@ public class ProductServiceImpl implements ProductService {
                 EventFactory.create("Create new " + Product.class.getSimpleName(), "create-exchange", "info")
         );
 
-        return productProvider.save(productDTO);
+        ProductDTO saved = productProvider.save(productDTO);
+        saved.setPrice(productDTO.getPrice());
+
+        eventPublisher.publish(
+                EventFactory.create(new CreatePriceEvent(saved.getId(), saved.getPrice()), "create-exchange", "createPriceKey")
+        );
+
+        return saved;
     }
 
     @Override

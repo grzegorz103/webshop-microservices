@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import price.service.mappers.PriceMapper;
 import price.service.services.price.PriceDTO;
 
+import java.math.BigDecimal;
+
 @Service
 public class PriceProviderImpl implements PriceProvider {
 
@@ -48,6 +50,13 @@ public class PriceProviderImpl implements PriceProvider {
         }
 
         priceRepository.deleteById(id);
+    }
+
+    @Override
+    public BigDecimal getProductPrice(Long productId) {
+        BigDecimal productPrice = priceRepository.findProductPrice(productId);
+        System.out.println(productPrice + " " + productId);
+        return productPrice;
     }
 
 }

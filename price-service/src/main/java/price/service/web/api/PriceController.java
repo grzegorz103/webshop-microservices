@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import price.service.services.price.PriceDTO;
 import price.service.services.price.PriceService;
 
+import java.math.BigDecimal;
+
 @RestController
 @RequestMapping("/prices")
 public class PriceController {
@@ -45,4 +47,8 @@ public class PriceController {
         priceService.delete(id);
     }
 
+    @GetMapping(value = "/{productId}/price",produces = "application/json")
+    public BigDecimal getProductPrice(@PathVariable("productId") Long productId) {
+        return priceService.getProductPrice(productId);
+    }
 }

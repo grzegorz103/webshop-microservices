@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import product.service.persistence.category.Category;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor

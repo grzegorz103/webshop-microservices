@@ -20,4 +20,6 @@ public class Price {
 
     private BigDecimal price;
 
+    private Long productId;
+
 }

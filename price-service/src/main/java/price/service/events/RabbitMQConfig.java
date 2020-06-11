@@ -1,4 +1,4 @@
-package service.event.listeners;
+package price.service.events;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -29,7 +29,8 @@ public class RabbitMQConfig {
 
     @Bean
     Binding binding(Queue queue, TopicExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with("info");
+        return BindingBuilder.bind(queue).to(exchange).with("createPriceKey");
     }
 
 }
+
