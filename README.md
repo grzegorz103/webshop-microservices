@@ -1,11 +1,11 @@
 # Microservices
 
 ## Table of contents
-
 * [General info](#general-info)
 * [Technologies](#technologies)
 
 ## General info
+![Image](https://i.imgur.com/TGjSsXH.jpg)   
 Application built in microservices architecture.
 
 ## Technologies
