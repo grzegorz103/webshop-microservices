@@ -10,8 +10,4 @@ import java.math.BigDecimal;
 @Repository
 public interface PriceRepository extends JpaRepository<Price, Long> {
 
-    @Query("SELECT p.price FROM Price p " +
-            "WHERE p.productId = :productId")
-    BigDecimal findProductPrice(@Param("productId") Long productId);
-
 }

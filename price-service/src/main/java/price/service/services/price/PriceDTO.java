@@ -15,6 +15,4 @@ public class PriceDTO {
 
     private BigDecimal price;
 
-    private Long productId;
-
 }

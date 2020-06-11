@@ -15,7 +15,7 @@ public class RabbitMQConfig {
 
     static final String topicExchangeName = "create-exchange";
 
-    static final String queueName = "spring-boot";
+    static final String queueName = "price-queue";
 
     @Bean
     Queue queue() {

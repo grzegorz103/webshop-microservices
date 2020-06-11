@@ -9,9 +9,12 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import price.service.mappers.PriceMapper;
+import price.service.services.price.PriceDTO;
 import price.service.services.price.PriceService;
 
-@RabbitListener(queues = "spring-boot")
+import java.math.BigDecimal;
+
+@RabbitListener(queues = "price-queue")
 @Component
 @Slf4j
 public class PriceCreateListener {
@@ -31,13 +34,15 @@ public class PriceCreateListener {
     }
 
     @RabbitHandler
-    public void receiveMessage(String message) {
+    public Long receiveMessage(String message) {
         try {
-            EventInfo<PriceCreateRecvInfo> in = objectMapper.readValue(message, new TypeReference<EventInfo<PriceCreateRecvInfo>>() {});
-            priceService.create(priceMapper.toDTO(in.getMessage()));
+            EventInfo<Long> in = objectMapper.readValue(message, new TypeReference<EventInfo<Long>>() {});
+            log.info("Receive message");
+            return priceService.create(new PriceDTO(null, BigDecimal.valueOf(in.getMessage()))).getId();
         } catch (JsonProcessingException e) {
             log.error(e.getMessage());
         }
+        throw new IllegalStateException();
     }
 
 }

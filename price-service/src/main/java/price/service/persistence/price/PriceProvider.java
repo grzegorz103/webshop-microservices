@@ -16,6 +16,4 @@ public interface PriceProvider {
 
     void delete(Long id);
 
-    BigDecimal getProductPrice(Long productId);
-
 }

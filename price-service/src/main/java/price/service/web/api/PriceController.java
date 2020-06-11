@@ -11,7 +11,7 @@ import price.service.services.price.PriceService;
 import java.math.BigDecimal;
 
 @RestController
-@RequestMapping("/prices")
+@RequestMapping(value = "/prices", produces = "application/json")
 public class PriceController {
 
     private final PriceService priceService;
@@ -47,8 +47,4 @@ public class PriceController {
         priceService.delete(id);
     }
 
-    @GetMapping(value = "/{productId}/price",produces = "application/json")
-    public BigDecimal getProductPrice(@PathVariable("productId") Long productId) {
-        return priceService.getProductPrice(productId);
-    }
 }

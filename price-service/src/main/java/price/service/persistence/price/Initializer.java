@@ -17,9 +17,9 @@ public class Initializer {
 
     @PostConstruct
     public void init(){
-        priceRepository.save(new Price(1L, BigDecimal.TEN, 4L));
-        priceRepository.save(new Price(2L, BigDecimal.ONE, 5L));
-        priceRepository.save(new Price(3L, BigDecimal.TEN, 6L));
+        priceRepository.save(new Price(1L, BigDecimal.TEN));
+        priceRepository.save(new Price(2L, BigDecimal.ONE));
+        priceRepository.save(new Price(3L, BigDecimal.TEN));
     }
 
 }

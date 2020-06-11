@@ -1,11 +1,13 @@
 package product.service.services.product;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import product.service.events.CreatePriceEvent;
 import product.service.events.EventFactory;
 import product.service.events.EventPublisher;
 import product.service.persistence.category.CategoryProvider;
@@ -39,7 +41,16 @@ public class ProductServiceImpl implements ProductService {
     public Page<ProductDTO> findAll(Pageable pageable) {
         return productProvider.getAll(pageable)
                 .map(productDTO -> {
-                            productDTO.setPrice(restTemplate.getForObject("http://PRICE-SERVICE/prices/" + productDTO.getId() + "/price", BigDecimal.class));
+                            try {
+                                productDTO.setPrice(
+                                        BigDecimal.valueOf(
+                                                Double.parseDouble(new JSONObject(restTemplate.getForObject("http://PRICE-SERVICE/prices/" + productDTO.getPriceId(), String.class)).get("price").toString())
+                                        ));
+                                productDTO.setPriceId(null);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
                             return productDTO;
                         }
                 );
@@ -52,14 +63,13 @@ public class ProductServiceImpl implements ProductService {
                 EventFactory.create("Create new " + Product.class.getSimpleName(), "create-exchange", "info")
         );
 
-        ProductDTO saved = productProvider.save(productDTO);
-        saved.setPrice(productDTO.getPrice());
-
-        eventPublisher.publish(
-                EventFactory.create(new CreatePriceEvent(saved.getId(), saved.getPrice()), "create-exchange", "createPriceKey")
+        Long createdPriceId = (Long) eventPublisher.publishAndReceive(
+                EventFactory.create(productDTO.getPrice(), "create-exchange", "createPriceKey")
         );
 
-        return saved;
+        productDTO.setPriceId(createdPriceId);
+
+        return productProvider.save(productDTO);
     }
 
     @Override
@@ -67,6 +77,7 @@ public class ProductServiceImpl implements ProductService {
         ProductDTO fromDb = productProvider.getOne(id);
         fromDb.setName(productDTO.getName());
         fromDb.setCategory(categoryProvider.getOne(productDTO.getCategory().getId()));
+        fromDb.setPriceId(productDTO.getPriceId());
         return productProvider.save(fromDb);
     }
 

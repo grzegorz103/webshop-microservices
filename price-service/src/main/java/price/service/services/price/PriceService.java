@@ -17,6 +17,4 @@ public interface PriceService {
 
     void delete(Long id);
 
-    BigDecimal getProductPrice(Long productId);
-
 }

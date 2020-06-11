@@ -49,9 +49,4 @@ public class PriceServiceImpl implements PriceService {
         priceProvider.delete(id);
     }
 
-    @Override
-    public BigDecimal getProductPrice(Long productId) {
-        return priceProvider.getProductPrice(productId);
-    }
-
 }
