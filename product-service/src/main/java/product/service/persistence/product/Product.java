@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import product.service.persistence.category.Category;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
@@ -25,5 +26,7 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
+
+    private Long priceId;
 
 }

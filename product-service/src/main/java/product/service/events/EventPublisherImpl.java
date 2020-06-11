@@ -3,6 +3,7 @@ package product.service.events;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -35,4 +36,20 @@ public class EventPublisherImpl implements EventPublisher {
             log.error(e.getMessage());
         }
     }
+
+    @Override
+    public Object publishAndReceive(Event<? extends Serializable> eventEntity) {
+        try {
+            return rabbitTemplate.convertSendAndReceive(
+                    eventEntity.getExchange(),
+                    eventEntity.getRoutingKey(),
+                    objectMapper.writeValueAsString(eventEntity.getEventInfo())
+            );
+        } catch (JsonProcessingException e) {
+            log.error(e.getMessage());
+        }
+
+        throw new IllegalStateException();
+    }
+
 }
