@@ -1,4 +1,4 @@
-package price.service.events;
+package price.service.events.listeners;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -8,13 +8,14 @@ import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import price.service.events.EventInfo;
 import price.service.mappers.PriceMapper;
 import price.service.services.price.PriceDTO;
 import price.service.services.price.PriceService;
 
 import java.math.BigDecimal;
 
-@RabbitListener(queues = "price-queue")
+@RabbitListener(queues = "queue.price.create")
 @Component
 @Slf4j
 public class PriceCreateListener {
@@ -37,7 +38,7 @@ public class PriceCreateListener {
     public Long receiveMessage(String message) {
         try {
             EventInfo<Long> in = objectMapper.readValue(message, new TypeReference<EventInfo<Long>>() {});
-            log.info("Receive message");
+            log.info("Receive create price message");
             return priceService.create(new PriceDTO(null, BigDecimal.valueOf(in.getMessage()))).getId();
         } catch (JsonProcessingException e) {
             log.error(e.getMessage());
