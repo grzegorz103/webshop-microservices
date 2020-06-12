@@ -1,9 +1,8 @@
 package product.service.persistence;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import microservices.common.events.EventPublisher;
 import org.springframework.stereotype.Component;
 import product.service.events.EventFactory;
-import product.service.events.EventPublisher;
 import product.service.persistence.category.Category;
 import product.service.persistence.category.CategoryRepository;
 import product.service.persistence.product.Product;
@@ -37,18 +36,17 @@ public class Initializer {
         Category cat3 = categoryRepository.save(Category.builder().name("cat3").products(new ArrayList<>()).build());
 
         productRepository.save(Product.builder().name("test1").category(cat1).priceId(
-                (Long) eventPublisher.publishAndReceive(EventFactory.create(4L, "create-exchange", "createPriceKey"))
+                (Long) eventPublisher.publishAndReceive(EventFactory.create(4L, "price-exchange", "createPriceKey"))
         ).build());
 
         productRepository.save(Product.builder().name("test1").category(cat2).priceId(
-                (Long) eventPublisher.publishAndReceive(EventFactory.create(5L, "create-exchange", "createPriceKey"))
+                (Long) eventPublisher.publishAndReceive(EventFactory.create(5L, "price-exchange", "createPriceKey"))
         ).build());
 
         productRepository.save(Product.builder().name("test1").category(cat3).priceId(
-                (Long) eventPublisher.publishAndReceive(EventFactory.create(6L, "create-exchange", "createPriceKey"))
+                (Long) eventPublisher.publishAndReceive(EventFactory.create(6L, "price-exchange", "createPriceKey"))
         ).build());
 
-        productRepository.findAll().stream().forEach(e-> System.out.println(e.getPriceId()));
     }
 
 }

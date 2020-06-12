@@ -1,11 +1,11 @@
 package product.service.web.api;
 
+import microservices.common.events.EventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import product.service.events.EventFactory;
-import product.service.events.EventPublisher;
 import product.service.persistence.category.Category;
 import product.service.services.category.CategoryDTO;
 import product.service.services.category.CategoryService;

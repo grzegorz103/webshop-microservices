@@ -1,15 +1,14 @@
 package product.service.services.product;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import microservices.common.events.EventPublisher;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import product.service.events.EventFactory;
-import product.service.events.EventPublisher;
 import product.service.persistence.category.CategoryProvider;
 import product.service.persistence.product.Product;
 import product.service.persistence.product.ProductProvider;
@@ -17,6 +16,7 @@ import product.service.persistence.product.ProductProvider;
 import java.math.BigDecimal;
 
 @Service
+@Transactional
 public class ProductServiceImpl implements ProductService {
 
     private final ProductProvider productProvider;
@@ -39,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<ProductDTO> findAll(Pageable pageable) {
-        return productProvider.getAll(pageable)
+        Page<ProductDTO> price = productProvider.getAll(pageable)
                 .map(productDTO -> {
                             try {
                                 productDTO.setPrice(
@@ -54,6 +54,8 @@ public class ProductServiceImpl implements ProductService {
                             return productDTO;
                         }
                 );
+
+        return price;
     }
 
     @Override
@@ -64,7 +66,7 @@ public class ProductServiceImpl implements ProductService {
         );
 
         Long createdPriceId = (Long) eventPublisher.publishAndReceive(
-                EventFactory.create(productDTO.getPrice(), "create-exchange", "createPriceKey")
+                EventFactory.create(productDTO.getPrice(), "price-exchange", "createPriceKey")
         );
 
         productDTO.setPriceId(createdPriceId);
@@ -83,7 +85,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void delete(Long id) {
+        ProductDTO productDTO = productProvider.getOne(id);
         productProvider.delete(id);
+        eventPublisher.publish(EventFactory.create(productDTO.getPriceId(), "price-exchange", "deletePriceKey"));
     }
 
 }

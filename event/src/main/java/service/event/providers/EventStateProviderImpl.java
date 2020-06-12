@@ -4,7 +4,6 @@ import org.springframework.stereotype.Component;
 import service.event.models.EventInfo;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.function.Predicate;

@@ -4,32 +4,44 @@ import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
-import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 @Component
 public class RabbitMQConfig {
 
-    static final String topicExchangeName = "create-exchange";
+    public static final String topicExchangeName = "price-exchange";
 
-    static final String queueName = "price-queue";
+    public static final String createQueueName = "queue.price.create";
 
-    @Bean
-    Queue queue() {
-        return new Queue(queueName, false);
+    public static final String deleteQueueName = "queue.price.delete";
+
+    @Bean(name = "createPriceQueue")
+    public Queue createQueue() {
+        return new Queue(createQueueName, false);
+    }
+
+    @Bean(name = "deletePriceQueue")
+    public Queue deleteQueue() {
+        return new Queue(deleteQueueName, false);
     }
 
     @Bean
-    TopicExchange exchange() {
+    public TopicExchange exchange() {
         return new TopicExchange(topicExchangeName);
     }
 
     @Bean
-    Binding binding(Queue queue, TopicExchange exchange) {
+    public Binding bindingCreateListener(@Qualifier("createPriceQueue") Queue queue,
+                                         TopicExchange exchange) {
         return BindingBuilder.bind(queue).to(exchange).with("createPriceKey");
+    }
+
+    @Bean
+    public Binding bindingDeleteListener(@Qualifier("deletePriceQueue") Queue queue,
+                                         TopicExchange exchange) {
+        return BindingBuilder.bind(queue).to(exchange).with("deletePriceKey");
     }
 
 }
