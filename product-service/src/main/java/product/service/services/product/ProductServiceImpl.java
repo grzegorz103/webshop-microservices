@@ -1,5 +1,6 @@
 package product.service.services.product;
 
+import microservices.common.events.EventPublisher;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.data.domain.Page;
@@ -8,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import product.service.events.EventFactory;
-import product.service.events.EventPublisher;
 import product.service.persistence.category.CategoryProvider;
 import product.service.persistence.product.Product;
 import product.service.persistence.product.ProductProvider;
@@ -54,7 +54,7 @@ public class ProductServiceImpl implements ProductService {
                             return productDTO;
                         }
                 );
-        System.out.println(price.getTotalElements());
+
         return price;
     }
 

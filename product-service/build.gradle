@@ -16,6 +16,7 @@ configurations {
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 ext {
@@ -29,9 +30,9 @@ dependencies {
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.11.0'
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     compileOnly 'org.projectlombok:lombok'
+    compile 'microservices:common-module:1.0-SNAPSHOT'
     compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
-
     runtimeOnly 'com.h2database:h2'// https://mvnrepository.com/artifact/org.hibernate/hibernate-gradle-plugin
     compile group: 'org.hibernate', name: 'hibernate-gradle-plugin', version: '5.4.17.Final'
 // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-amqp
@@ -39,7 +40,6 @@ dependencies {
     implementation "org.mapstruct:mapstruct:${mapstructVersion}"
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
     testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
-
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
