@@ -1,10 +1,10 @@
 package product.service.events;
 
+import microservices.common.events.EventPublisher;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import microservices.common.events.Event;
-import org.springframework.amqp.core.Message;
+import microservices.common.events.Event;;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

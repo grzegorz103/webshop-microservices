@@ -1,7 +1,4 @@
-package product.service.events;
-
-import microservices.common.events.Event;
-import org.springframework.amqp.core.Message;
+package microservices.common.events;
 
 import java.io.Serializable;
 
