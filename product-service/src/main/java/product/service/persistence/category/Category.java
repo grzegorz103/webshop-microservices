@@ -24,8 +24,8 @@ public class Category {
     private String name;
 
     @OneToMany(mappedBy = "category", cascade = {
-            CascadeType.PERSIST
-    },fetch = FetchType.EAGER)
+            CascadeType.REMOVE
+    },fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Product> products;
 
 }
