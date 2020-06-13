@@ -35,7 +35,7 @@ public class Initializer {
         Category cat2 = categoryRepository.save(Category.builder().name("cat2").products(new ArrayList<>()).build());
         Category cat3 = categoryRepository.save(Category.builder().name("cat3").products(new ArrayList<>()).build());
 
-        productRepository.save(Product.builder().name("test1").category(cat1).priceId(
+    /*    productRepository.save(Product.builder().name("test1").category(cat1).priceId(
                 (Long) eventPublisher.publishAndReceive(EventFactory.create(4L, "price-exchange", "createPriceKey"))
         ).build());
 
@@ -45,7 +45,7 @@ public class Initializer {
 
         productRepository.save(Product.builder().name("test1").category(cat3).priceId(
                 (Long) eventPublisher.publishAndReceive(EventFactory.create(6L, "price-exchange", "createPriceKey"))
-        ).build());
+        ).build());*/
 
     }
 

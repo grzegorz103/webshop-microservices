@@ -1,4 +1,4 @@
-package config;
+package microservices.common.config;
 
 public class QueueNames {
 
