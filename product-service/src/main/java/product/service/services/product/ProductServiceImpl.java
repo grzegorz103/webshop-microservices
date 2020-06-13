@@ -1,5 +1,6 @@
 package product.service.services.product;
 
+import microservices.common.config.*;
 import microservices.common.events.EventPublisher;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -62,11 +63,11 @@ public class ProductServiceImpl implements ProductService {
     public ProductDTO create(ProductDTO productDTO) {
         productDTO.setCategory(categoryProvider.getOne(productDTO.getCategory().getId()));
         eventPublisher.publish(
-                EventFactory.create("Create new " + Product.class.getSimpleName(), "create-exchange", "info")
+                EventFactory.create("Create new " + Product.class.getSimpleName(), ExchangeNames.EVENT_EXCHANGE, RoutingKeyNames.EVENT_CREATE_KEY)
         );
 
         Long createdPriceId = (Long) eventPublisher.publishAndReceive(
-                EventFactory.create(productDTO.getPrice(), "price-exchange", "createPriceKey")
+                EventFactory.create(productDTO.getPrice(), ExchangeNames.PRICE_EXCHANGE, RoutingKeyNames.PRICE_CREATE_KEY)
         );
 
         productDTO.setPriceId(createdPriceId);
@@ -87,7 +88,8 @@ public class ProductServiceImpl implements ProductService {
     public void delete(Long id) {
         ProductDTO productDTO = productProvider.getOne(id);
         productProvider.delete(id);
-        eventPublisher.publish(EventFactory.create(productDTO.getPriceId(), "price-exchange", "deletePriceKey"));
+        System.out.println(productDTO.getPriceId());
+        eventPublisher.publish(EventFactory.create(productDTO.getPriceId(), ExchangeNames.PRICE_EXCHANGE, RoutingKeyNames.PRICE_DELETE_KEY));
     }
 
 }

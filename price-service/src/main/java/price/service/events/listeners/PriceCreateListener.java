@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import microservices.common.config.QueueNames;
 import microservices.common.events.EventInfo;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -14,7 +15,7 @@ import price.service.services.price.PriceService;
 
 import java.math.BigDecimal;
 
-@RabbitListener(queues = "queue.price.create")
+@RabbitListener(queues = QueueNames.PRICE_CREATE_QUEUE)
 @Component
 @Slf4j
 public class PriceCreateListener {

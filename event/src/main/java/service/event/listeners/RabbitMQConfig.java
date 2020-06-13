@@ -1,5 +1,8 @@
 package service.event.listeners;
 
+import microservices.common.config.ExchangeNames;
+import microservices.common.config.QueueNames;
+import microservices.common.config.RoutingKeyNames;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
@@ -13,23 +16,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class RabbitMQConfig {
 
-    static final String topicExchangeName = "create-exchange";
-
-    static final String queueName = "spring-boot";
-
     @Bean
-    Queue queue() {
-        return new Queue(queueName, false);
+    Queue createQueue() {
+        return new Queue(QueueNames.EVENT_CREATE_QUEUE, false);
     }
 
     @Bean
     TopicExchange exchange() {
-        return new TopicExchange(topicExchangeName);
+        return new TopicExchange(ExchangeNames.EVENT_EXCHANGE);
     }
 
     @Bean
     Binding binding(Queue queue, TopicExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with("info");
+        return BindingBuilder.bind(queue).to(exchange).with(RoutingKeyNames.EVENT_CREATE_KEY);
     }
 
 }

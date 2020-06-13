@@ -1,5 +1,8 @@
 package price.service.events;
 
+import microservices.common.config.ExchangeNames;
+import microservices.common.config.QueueNames;
+import microservices.common.config.RoutingKeyNames;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
@@ -11,37 +14,31 @@ import org.springframework.stereotype.Component;
 @Component
 public class RabbitMQConfig {
 
-    public static final String topicExchangeName = "price-exchange";
-
-    public static final String createQueueName = "queue.price.create";
-
-    public static final String deleteQueueName = "queue.price.delete";
-
     @Bean(name = "createPriceQueue")
     public Queue createQueue() {
-        return new Queue(createQueueName, false);
+        return new Queue(QueueNames.PRICE_CREATE_QUEUE, false);
     }
 
     @Bean(name = "deletePriceQueue")
     public Queue deleteQueue() {
-        return new Queue(deleteQueueName, false);
+        return new Queue(QueueNames.PRICE_DELETE_QUEUE, false);
     }
 
     @Bean
     public TopicExchange exchange() {
-        return new TopicExchange(topicExchangeName);
+        return new TopicExchange(ExchangeNames.PRICE_EXCHANGE);
     }
 
     @Bean
     public Binding bindingCreateListener(@Qualifier("createPriceQueue") Queue queue,
                                          TopicExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with("createPriceKey");
+        return BindingBuilder.bind(queue).to(exchange).with(RoutingKeyNames.PRICE_CREATE_KEY);
     }
 
     @Bean
     public Binding bindingDeleteListener(@Qualifier("deletePriceQueue") Queue queue,
                                          TopicExchange exchange) {
-        return BindingBuilder.bind(queue).to(exchange).with("deletePriceKey");
+        return BindingBuilder.bind(queue).to(exchange).with(RoutingKeyNames.PRICE_DELETE_KEY);
     }
 
 }

@@ -2,6 +2,7 @@ package service.event.listeners;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import microservices.common.config.QueueNames;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -13,7 +14,7 @@ import service.event.service.EventService;
 import java.time.Instant;
 import java.util.Objects;
 
-@RabbitListener(queues = "spring-boot")
+@RabbitListener(queues = QueueNames.EVENT_CREATE_QUEUE)
 @Component
 @Slf4j
 public class EventListener {
