@@ -35,28 +35,27 @@ public class ProductServiceImpl implements ProductService {
 
     private final EventPublisher eventPublisher;
 
-    @Autowired
-    private ProductFallbacks productFallbacks;
+    private final ProductFallbacks productFallbacks;
 
     public ProductServiceImpl(ProductProvider productProvider,
                               CategoryProvider categoryProvider,
                               EventPublisher eventPublisher,
-                              RestTemplate restTemplate) {
+                              RestTemplate restTemplate, ProductFallbacks productFallbacks) {
         this.productProvider = productProvider;
         this.categoryProvider = categoryProvider;
         this.eventPublisher = eventPublisher;
         this.restTemplate = restTemplate;
+        this.productFallbacks = productFallbacks;
     }
 
     @Override
-    @HystrixCommand(fallbackMethod = "productFallbacks.findAll")
     public Page<ProductDTO> findAll(Pageable pageable) {
-        return productProvider.getAll(pageable)
+        Page<ProductDTO> price = productProvider.getAll(pageable)
                 .map(productDTO -> {
                             try {
                                 productDTO.setPrice(
                                         BigDecimal.valueOf(
-                                                Double.parseDouble(new JSONObject(restTemplate.getForObject("http://PRICE-SERVICE/prices/" + productDTO.getPriceId(), String.class)).get("price").toString())
+                                                Double.parseDouble(new JSONObject(productFallbacks.getPriceById(productDTO.getPriceId())).get("price").toString())
                                         ));
                                 productDTO.setPriceId(null);
                             } catch (JSONException e) {
@@ -66,10 +65,8 @@ public class ProductServiceImpl implements ProductService {
                             return productDTO;
                         }
                 );
-    }
 
-    private Page<ProductDTO> defaultProducts(Pageable pageable) {
-        return productProvider.getAll(pageable);
+        return price;
     }
 
     @Override
