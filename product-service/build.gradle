@@ -42,7 +42,8 @@ dependencies {
     testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-hystrix
-    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-hystrix', version: '1.4.7.RELEASE'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-hystrix', version: '1.4.7.RELEASE'// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-feign
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-feign', version: '1.4.7.RELEASE'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }

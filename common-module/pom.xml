@@ -22,8 +22,6 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-    <properties>
-    </properties>
 
     <build>
         <plugins>
