@@ -11,10 +11,10 @@ Application built in microservices architecture.
 ## Technologies
 
 - Spring Boot, AMQP, Cloud, Data JPA
-- RabbitMQ
+- RabbitMQ, Hystrix
 - Eureka, Zuul
 - Hibernate
 - Gradle/Maven
 - H2, Lombok
 - JUnit, Mockito
-- Swagger
+- Swagger, MapStruct
