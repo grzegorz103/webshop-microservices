@@ -1,14 +1,13 @@
 package product.service.services.product;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import lombok.extern.slf4j.Slf4j;
 import microservices.common.config.*;
 import microservices.common.events.EventPublisher;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,14 +16,14 @@ import product.service.events.EventFactory;
 import product.service.persistence.category.CategoryProvider;
 import product.service.persistence.product.Product;
 import product.service.persistence.product.ProductProvider;
-import product.service.services.fallbacks.ProductFallbacks;
+import product.service.services.feign.PriceClient;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 
 @Service
 @Transactional
 @Primary
+@Slf4j
 public class ProductServiceImpl implements ProductService {
 
     private final ProductProvider productProvider;
@@ -35,27 +34,29 @@ public class ProductServiceImpl implements ProductService {
 
     private final EventPublisher eventPublisher;
 
-    private final ProductFallbacks productFallbacks;
+    private final PriceClient priceClient;
 
     public ProductServiceImpl(ProductProvider productProvider,
                               CategoryProvider categoryProvider,
                               EventPublisher eventPublisher,
-                              RestTemplate restTemplate, ProductFallbacks productFallbacks) {
+                              RestTemplate restTemplate,
+                              PriceClient priceClient) {
         this.productProvider = productProvider;
         this.categoryProvider = categoryProvider;
         this.eventPublisher = eventPublisher;
         this.restTemplate = restTemplate;
-        this.productFallbacks = productFallbacks;
+        this.priceClient = priceClient;
     }
 
     @Override
+    @HystrixCommand(fallbackMethod = "findAllFallback")
     public Page<ProductDTO> findAll(Pageable pageable) {
         Page<ProductDTO> price = productProvider.getAll(pageable)
                 .map(productDTO -> {
                             try {
                                 productDTO.setPrice(
                                         BigDecimal.valueOf(
-                                                Double.parseDouble(new JSONObject(productFallbacks.getPriceById(productDTO.getPriceId())).get("price").toString())
+                                                Double.parseDouble(new JSONObject(priceClient.getPriceById(productDTO.getPriceId())).get("price").toString())
                                         ));
                                 productDTO.setPriceId(null);
                             } catch (JSONException e) {
@@ -67,6 +68,11 @@ public class ProductServiceImpl implements ProductService {
                 );
 
         return price;
+    }
+
+    private Page<ProductDTO> findAllFallback(Pageable pageable){
+        log.warn("Using findAll fallback method");
+        return productProvider.getAll(pageable);
     }
 
     @Override

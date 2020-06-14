@@ -11,7 +11,7 @@ Application built in microservices architecture.
 ## Technologies
 
 - Spring Boot, AMQP, Cloud, Data JPA
-- RabbitMQ, Hystrix
+- RabbitMQ, Hystrix, Feign
 - Eureka, Zuul
 - Hibernate
 - Gradle/Maven
