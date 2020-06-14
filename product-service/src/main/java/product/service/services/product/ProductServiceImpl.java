@@ -1,10 +1,14 @@
 package product.service.services.product;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import microservices.common.config.*;
 import microservices.common.events.EventPublisher;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,11 +17,14 @@ import product.service.events.EventFactory;
 import product.service.persistence.category.CategoryProvider;
 import product.service.persistence.product.Product;
 import product.service.persistence.product.ProductProvider;
+import product.service.services.fallbacks.ProductFallbacks;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 @Service
 @Transactional
+@Primary
 public class ProductServiceImpl implements ProductService {
 
     private final ProductProvider productProvider;
@@ -27,6 +34,9 @@ public class ProductServiceImpl implements ProductService {
     private final RestTemplate restTemplate;
 
     private final EventPublisher eventPublisher;
+
+    @Autowired
+    private ProductFallbacks productFallbacks;
 
     public ProductServiceImpl(ProductProvider productProvider,
                               CategoryProvider categoryProvider,
@@ -39,8 +49,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @HystrixCommand(fallbackMethod = "productFallbacks.findAll")
     public Page<ProductDTO> findAll(Pageable pageable) {
-        Page<ProductDTO> price = productProvider.getAll(pageable)
+        return productProvider.getAll(pageable)
                 .map(productDTO -> {
                             try {
                                 productDTO.setPrice(
@@ -55,8 +66,10 @@ public class ProductServiceImpl implements ProductService {
                             return productDTO;
                         }
                 );
+    }
 
-        return price;
+    private Page<ProductDTO> defaultProducts(Pageable pageable) {
+        return productProvider.getAll(pageable);
     }
 
     @Override
@@ -88,7 +101,6 @@ public class ProductServiceImpl implements ProductService {
     public void delete(Long id) {
         ProductDTO productDTO = productProvider.getOne(id);
         productProvider.delete(id);
-        System.out.println(productDTO.getPriceId());
         eventPublisher.publish(EventFactory.create(productDTO.getPriceId(), ExchangeNames.PRICE_EXCHANGE, RoutingKeyNames.PRICE_DELETE_KEY));
     }
 
