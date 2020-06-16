@@ -41,4 +41,12 @@ public class OrderProviderImpl implements OrderProvider {
         );
     }
 
+    @Override
+    public void deleteById(Long id) {
+        if (!orderRepository.existsById(id))
+            throw new IllegalArgumentException();
+
+        orderRepository.deleteById(id);
+    }
+
 }
