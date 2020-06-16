@@ -52,27 +52,31 @@ public class ProductServiceImpl implements ProductService {
     @HystrixCommand(fallbackMethod = "findAllFallback")
     public Page<ProductDTO> findAll(Pageable pageable) {
         Page<ProductDTO> price = productProvider.getAll(pageable)
-                .map(productDTO -> {
-                            try {
-                                productDTO.setPrice(
-                                        BigDecimal.valueOf(
-                                                Double.parseDouble(new JSONObject(priceClient.getPriceById(productDTO.getPriceId())).get("price").toString())
-                                        ));
-                                productDTO.setPriceId(null);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-                            return productDTO;
-                        }
-                );
+                .map(this::mapPriceIdToPrice);
 
         return price;
     }
 
-    private Page<ProductDTO> findAllFallback(Pageable pageable){
+    private Page<ProductDTO> findAllFallback(Pageable pageable) {
         log.warn("Using findAll fallback method");
         return productProvider.getAll(pageable);
+    }
+
+    private ProductDTO mapPriceIdToPrice(ProductDTO productDTO) {
+        productDTO.setPrice(fetchPriceById(productDTO.getPriceId()));
+        productDTO.setPriceId(null);
+        return productDTO;
+    }
+
+    private BigDecimal fetchPriceById(Long priceId) {
+        try {
+            return BigDecimal.valueOf(
+                    Double.parseDouble(new JSONObject(priceClient.getPriceById(priceId)).get("price").toString())
+            );
+        } catch (JSONException e) {
+            log.error(e.getMessage());
+        }
+        throw new IllegalStateException();
     }
 
     @Override
@@ -105,6 +109,12 @@ public class ProductServiceImpl implements ProductService {
         ProductDTO productDTO = productProvider.getOne(id);
         productProvider.delete(id);
         eventPublisher.publish(EventFactory.create(productDTO.getPriceId(), ExchangeNames.PRICE_EXCHANGE, RoutingKeyNames.PRICE_DELETE_KEY));
+    }
+
+    @Override
+    public ProductDTO findById(Long id) {
+        ProductDTO one = productProvider.getOne(id);
+        return mapPriceIdToPrice(one);
     }
 
 }
