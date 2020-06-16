@@ -1,16 +1,16 @@
-package product.service.services.feign;
+package order.service.services.feign;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient(
-        name = "price-service"
+        name = "product-service"
 )
-public interface PriceClient {
+public interface PriceFeignClient {
 
-    @GetMapping("/prices/{id}")
-    String getPriceById(@PathVariable("id") Long id);
+    @GetMapping("/products/{id}")
+    String getProductById(@PathVariable("id") Long id);
 
 }
 

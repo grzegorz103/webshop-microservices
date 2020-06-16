@@ -23,6 +23,11 @@ public class ProductController {
         return productService.findAll(pageable);
     }
 
+    @GetMapping("/{id}")
+    public ProductDTO fineById(@PathVariable("id") Long id){
+        return productService.findById(id);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ProductDTO create(@RequestBody ProductDTO product) {

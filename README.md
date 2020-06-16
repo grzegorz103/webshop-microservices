@@ -5,7 +5,7 @@
 * [Technologies](#technologies)
 
 ## General info
-![Image](https://i.imgur.com/TGjSsXH.jpg)   
+![Image](https://i.imgur.com/0exejn8.jpg)   
 Application built in microservices architecture.
 
 ## Technologies
