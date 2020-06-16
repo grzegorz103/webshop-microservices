@@ -1,18 +1,16 @@
 package order.service.services;
 
 import lombok.extern.slf4j.Slf4j;
-import order.service.mappers.OrderMapper;
-import order.service.persistence.Order;
 import order.service.persistence.OrderProvider;
 import order.service.services.feign.PriceFeignClient;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.Objects;
 
 @Service
@@ -37,6 +35,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDTO create(OrderDTO orderDTO) {
         Objects.requireNonNull(orderDTO);
+        orderDTO.setCreationDate(Instant.now());
         orderDTO.setTotalCost(getCalculatedTotalCost(orderDTO));
         return orderProvider.save(orderDTO);
     }
@@ -46,11 +45,11 @@ public class OrderServiceImpl implements OrderService {
 
         return orderDTO.getProductIds()
                 .stream()
-                .map(this::fetchPriceByProdutId)
+                .map(this::fetchPriceByProductId)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    private BigDecimal fetchPriceByProdutId(Long productId) {
+    private BigDecimal fetchPriceByProductId(Long productId) {
         try {
             return BigDecimal.valueOf(
                     Double.parseDouble(new JSONObject(priceFeignClient.getProductById(productId)).get("price").toString())
