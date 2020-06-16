@@ -1,8 +1,12 @@
 package product.service.services.category;
 
+import microservices.common.events.EventPublisher;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import product.service.events.EventFactory;
+import product.service.persistence.category.Category;
 import product.service.persistence.category.CategoryProvider;
 
 import java.util.ArrayList;
@@ -12,8 +16,11 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryProvider categoryProvider;
 
-    public CategoryServiceImpl(CategoryProvider categoryProvider) {
+    private final EventPublisher eventPublisher;
+
+    public CategoryServiceImpl(CategoryProvider categoryProvider, EventPublisher eventPublisher) {
         this.categoryProvider = categoryProvider;
+        this.eventPublisher = eventPublisher;
     }
 
     public Page<CategoryDTO> getAll(Pageable pageable) {
@@ -28,6 +35,8 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDTO create(CategoryDTO category) {
         category.setProducts(new ArrayList<>());
+        eventPublisher.publish(EventFactory.create("Create new " + Category.class.getSimpleName(), "create-exchange", "info"));
+
         return categoryProvider.save(category);
     }
 
