@@ -1,10 +1,16 @@
 package order.service.services;
 
 import lombok.extern.slf4j.Slf4j;
+import microservices.common.config.ExchangeNames;
+import microservices.common.config.RoutingKeyNames;
+import microservices.common.events.EventFactory;
+import microservices.common.events.EventPublisher;
+import order.service.persistence.Order;
 import order.service.persistence.OrderProvider;
 import order.service.services.feign.PriceFeignClient;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -21,10 +27,14 @@ public class OrderServiceImpl implements OrderService {
 
     private final PriceFeignClient priceFeignClient;
 
+    private final EventPublisher eventPublisher;
+
     public OrderServiceImpl(OrderProvider orderProvider,
-                            PriceFeignClient priceFeignClient) {
+                            PriceFeignClient priceFeignClient,
+                            EventPublisher eventPublisher) {
         this.orderProvider = orderProvider;
         this.priceFeignClient = priceFeignClient;
+        this.eventPublisher = eventPublisher;
     }
 
     @Override
@@ -37,7 +47,20 @@ public class OrderServiceImpl implements OrderService {
         Objects.requireNonNull(orderDTO);
         orderDTO.setCreationDate(Instant.now());
         orderDTO.setTotalCost(getCalculatedTotalCost(orderDTO));
+        eventPublisher.publish(EventFactory.create("Create new " + Order.class.getSimpleName(), ExchangeNames.EVENT_EXCHANGE, RoutingKeyNames.EVENT_CREATE_KEY));
+
         return orderProvider.save(orderDTO);
+    }
+
+    @Override
+    public OrderDTO update(Long id, OrderDTO orderDTO) {
+        Objects.requireNonNull(orderDTO);
+        return orderProvider.save(orderDTO);
+    }
+
+    @Override
+    public void delete(Long id) {
+        orderProvider.deleteById(id);
     }
 
     private BigDecimal getCalculatedTotalCost(OrderDTO orderDTO) {

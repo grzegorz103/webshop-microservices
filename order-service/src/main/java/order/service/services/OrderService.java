@@ -9,4 +9,7 @@ public interface OrderService {
 
     OrderDTO create(OrderDTO orderDTO);
 
+    OrderDTO update(Long id, OrderDTO orderDTO);
+
+    void delete(Long id);
 }

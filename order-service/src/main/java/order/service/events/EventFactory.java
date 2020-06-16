@@ -1,4 +1,7 @@
-package microservices.common.events;
+package order.service.events;
+
+import microservices.common.events.Event;
+import microservices.common.events.EventInfo;
 
 import java.io.Serializable;
 
@@ -9,3 +12,4 @@ public class EventFactory {
     }
 
 }
+
