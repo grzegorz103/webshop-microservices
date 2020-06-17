@@ -13,4 +13,6 @@ public interface OrderProvider {
     OrderDTO save(OrderDTO orderDTO);
 
     void deleteById(Long id);
+
+    void deleteProductFromOrders(Long productId);
 }
