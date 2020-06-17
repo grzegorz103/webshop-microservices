@@ -12,4 +12,7 @@ public interface OrderService {
     OrderDTO update(Long id, OrderDTO orderDTO);
 
     void delete(Long id);
+
+    void deleteProductFromOrders(Long productId);
+
 }

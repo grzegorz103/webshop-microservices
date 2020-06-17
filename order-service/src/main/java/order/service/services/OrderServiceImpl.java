@@ -63,6 +63,11 @@ public class OrderServiceImpl implements OrderService {
         orderProvider.deleteById(id);
     }
 
+    @Override
+    public void deleteProductFromOrders(Long productId) {
+        orderProvider.deleteProductFromOrders(productId);
+    }
+
     private BigDecimal getCalculatedTotalCost(OrderDTO orderDTO) {
         Objects.requireNonNull(orderDTO.getProductIds());
 

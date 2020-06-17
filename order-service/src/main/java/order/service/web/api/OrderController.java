@@ -40,4 +40,11 @@ public class OrderController {
         orderService.delete(id);
     }
 
+    @DeleteMapping("/product/{productId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteProductFromOrders(@PathVariable("productId")Long productId){
+    orderService.deleteProductFromOrders(productId);
+    }
+
+
 }

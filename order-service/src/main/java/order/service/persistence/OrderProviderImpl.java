@@ -6,6 +6,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class OrderProviderImpl implements OrderProvider {
 
@@ -47,6 +50,21 @@ public class OrderProviderImpl implements OrderProvider {
             throw new IllegalArgumentException();
 
         orderRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteProductFromOrders(Long productId) {
+        List<Order> orders = orderRepository.findAllByProductIdsIsContaining(productId);
+        orders.forEach(order -> order.setProductIds(order.getProductIds().stream().filter(e -> e.equals(productId)).collect(Collectors.toList())));
+        orderRepository.saveAll(
+                orders.stream()
+                        .filter(OrderProviderImpl::isNotEmpty)
+                        .collect(Collectors.toList())
+        );
+    }
+
+    private static boolean isNotEmpty(Order e) {
+        return !e.getProductIds().isEmpty();
     }
 
 }
