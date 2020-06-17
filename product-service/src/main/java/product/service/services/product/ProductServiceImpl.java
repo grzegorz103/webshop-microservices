@@ -6,6 +6,7 @@ import microservices.common.config.*;
 import microservices.common.events.EventPublisher;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,7 @@ import product.service.events.EventFactory;
 import product.service.persistence.category.CategoryProvider;
 import product.service.persistence.product.Product;
 import product.service.persistence.product.ProductProvider;
+import product.service.services.feign.OrderClient;
 import product.service.services.feign.PriceClient;
 
 import java.math.BigDecimal;
@@ -36,16 +38,21 @@ public class ProductServiceImpl implements ProductService {
 
     private final PriceClient priceClient;
 
+    private final OrderClient orderClient;
+
+
     public ProductServiceImpl(ProductProvider productProvider,
                               CategoryProvider categoryProvider,
                               EventPublisher eventPublisher,
                               RestTemplate restTemplate,
-                              PriceClient priceClient) {
+                              PriceClient priceClient,
+                              OrderClient orderClient) {
         this.productProvider = productProvider;
         this.categoryProvider = categoryProvider;
         this.eventPublisher = eventPublisher;
         this.restTemplate = restTemplate;
         this.priceClient = priceClient;
+        this.orderClient = orderClient;
     }
 
     @Override
@@ -108,6 +115,7 @@ public class ProductServiceImpl implements ProductService {
     public void delete(Long id) {
         ProductDTO productDTO = productProvider.getOne(id);
         productProvider.delete(id);
+        orderClient.deleteProductFromOrders(id);
         eventPublisher.publish(EventFactory.create(productDTO.getPriceId(), ExchangeNames.PRICE_EXCHANGE, RoutingKeyNames.PRICE_DELETE_KEY));
     }
 

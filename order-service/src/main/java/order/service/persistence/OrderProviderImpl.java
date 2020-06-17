@@ -55,12 +55,15 @@ public class OrderProviderImpl implements OrderProvider {
     @Override
     public void deleteProductFromOrders(Long productId) {
         List<Order> orders = orderRepository.findAllByProductIdsIsContaining(productId);
-        orders.forEach(order -> order.setProductIds(order.getProductIds().stream().filter(e -> e.equals(productId)).collect(Collectors.toList())));
-        orderRepository.saveAll(
-                orders.stream()
-                        .filter(OrderProviderImpl::isNotEmpty)
-                        .collect(Collectors.toList())
-        );
+
+        if(!orders.isEmpty()) {
+            orders.forEach(order -> order.getProductIds().removeIf(e -> e.equals(productId)));
+            orderRepository.saveAll(
+                    orders.stream()
+                            .filter(OrderProviderImpl::isNotEmpty)
+                            .collect(Collectors.toList())
+            );
+        }
     }
 
     private static boolean isNotEmpty(Order e) {
