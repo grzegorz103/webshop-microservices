@@ -8,7 +8,7 @@ import service.event.service.EventService;
 import java.util.Collection;
 
 @RestController
-@RequestMapping("/events")
+@RequestMapping("${url.events}")
 public class EventController {
 
     private final EventService eventService;

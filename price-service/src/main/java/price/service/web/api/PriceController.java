@@ -11,7 +11,7 @@ import price.service.services.price.PriceService;
 import java.math.BigDecimal;
 
 @RestController
-@RequestMapping(value = "/prices", produces = "application/json")
+@RequestMapping(value = "${url.prices}", produces = "application/json")
 public class PriceController {
 
     private final PriceService priceService;
