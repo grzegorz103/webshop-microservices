@@ -8,7 +8,7 @@ import product.service.services.category.CategoryDTO;
 import product.service.services.category.CategoryService;
 
 @RestController
-@RequestMapping("/categories")
+@RequestMapping("${url.category}")
 public class CategoryController {
 
     private final CategoryService categoryService;

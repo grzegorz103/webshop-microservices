@@ -9,7 +9,7 @@ import product.service.services.product.ProductService;
 
 
 @RestController
-@RequestMapping(value = "/products", produces = "application/json")
+@RequestMapping(value = "${url.product}", produces = "application/json")
 public class ProductController {
 
     private final ProductService productService;
