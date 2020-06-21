@@ -79,9 +79,7 @@ public class OrderServiceImpl implements OrderService {
 
     private BigDecimal fetchPriceByProductId(Long productId) {
         try {
-            return BigDecimal.valueOf(
-                    Double.parseDouble(new JSONObject(priceFeignClient.getProductById(productId)).get("price").toString())
-            );
+            return new BigDecimal(new JSONObject(priceFeignClient.getProductById(productId)).get("price").toString());
         } catch (JSONException e) {
             log.error(e.getMessage());
         }
