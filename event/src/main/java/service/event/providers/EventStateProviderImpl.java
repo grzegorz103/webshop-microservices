@@ -5,13 +5,14 @@ import service.event.models.EventInfo;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.function.Predicate;
 
 @Component
 public class EventStateProviderImpl implements EventStateProvider {
 
-    private Collection<EventInfo<?>> events = new LinkedList<>();
+    private Collection<EventInfo<?>> events = Collections.synchronizedList(new LinkedList<>());
 
     @Override
     public EventInfo<? extends Serializable> add(EventInfo<? extends Serializable> event) {
