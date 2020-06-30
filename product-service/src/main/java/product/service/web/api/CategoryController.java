@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import product.service.services.category.CategoryDTO;
 import product.service.services.category.CategoryService;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("${url.category}")
 public class CategoryController {
@@ -29,12 +31,12 @@ public class CategoryController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CategoryDTO create(@RequestBody CategoryDTO category) {
+    public CategoryDTO create(@RequestBody @Valid CategoryDTO category) {
                 return categoryService.create(category);
     }
 
     @PutMapping("/{id}")
-    public CategoryDTO update(@RequestBody CategoryDTO category,
+    public CategoryDTO update(@RequestBody @Valid CategoryDTO category,
                               @PathVariable("id") Long id) {
         return categoryService.update(id, category);
     }

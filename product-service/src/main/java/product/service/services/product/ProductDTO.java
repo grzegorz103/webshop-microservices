@@ -20,6 +20,7 @@ public class ProductDTO {
     private Long id;
 
     @NotBlank
+    @Length(max = 250)
     private String name;
 
     @NotNull
