@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import product.service.services.product.ProductDTO;
 import product.service.services.product.ProductService;
 
+import javax.validation.Valid;
+
 
 @RestController
 @RequestMapping(value = "${url.product}", produces = "application/json")
@@ -30,12 +32,12 @@ public class ProductController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ProductDTO create(@RequestBody ProductDTO product) {
+    public ProductDTO create(@RequestBody @Valid ProductDTO product) {
         return productService.create(product);
     }
 
     @PutMapping("/{id}")
-    public ProductDTO update(@RequestBody ProductDTO product,
+    public ProductDTO update(@RequestBody @Valid ProductDTO product,
                              @PathVariable("id") Long id) {
         return productService.update(id, product);
     }
