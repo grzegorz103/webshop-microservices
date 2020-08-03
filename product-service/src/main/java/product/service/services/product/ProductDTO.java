@@ -31,4 +31,7 @@ public class ProductDTO {
     @NotNull
     private BigDecimal price;
 
+    @NotNull
+    private String description;
+
 }
