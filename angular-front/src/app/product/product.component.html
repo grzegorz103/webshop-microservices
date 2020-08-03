@@ -49,8 +49,28 @@
       </div>
 
     </div>
-    <nav aria-label="Page navigation example" class="ml-auto mt-3">
+    <nav aria-label="Page navigation" class="mt-3">
       <ul class="pagination pg-blue">
+        <li class="page-item ">
+          <a class="page-link" tabindex="-1"
+             (click)="pageSize=5;fetchProducts(products.pageable.pageNumber - 1)">5</a>
+        </li>
+        <li class="page-item ">
+          <a class="page-link"
+             (click)="pageSize=10;fetchProducts(products.pageable.pageNumber - 1)">10</a>
+        </li>
+        <li class="page-item ">
+          <a class="page-link"
+             (click)="pageSize=15;fetchProducts(products.pageable.pageNumber - 1)">15</a>
+        </li>
+      </ul>
+    </nav>
+    <nav aria-label="Page navigation" class="ml-auto mt-3">
+      <ul class="pagination pg-blue">
+        <li class="page-item ">
+          <a class="page-link" tabindex="-1" *ngIf="!products.first"
+             (click)="fetchProducts(0)">First</a>
+        </li>
         <li class="page-item ">
           <a class="page-link" tabindex="-1" [ngClass]="{'disabled': products.first }"
              (click)="fetchProducts(products.pageable.pageNumber - 1)">Previous</a>

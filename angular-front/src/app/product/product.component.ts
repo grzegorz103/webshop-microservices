@@ -9,7 +9,7 @@ import {ProductService} from "../product.service";
 export class ProductComponent implements OnInit {
 
   products: any;
-  currentPage = 0;
+  pageSize = 5;
 
   constructor(private productService: ProductService) {
   }
@@ -19,7 +19,7 @@ export class ProductComponent implements OnInit {
   }
 
   fetchProducts(page: number) {
-    this.productService.getAll(page).subscribe(res => {
+    this.productService.getAll(page, this.pageSize).subscribe(res => {
       console.log(res)
       this.products = res;
     });

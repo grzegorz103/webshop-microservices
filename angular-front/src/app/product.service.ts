@@ -10,8 +10,8 @@ export class ProductService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getAll(page: number) {
-    return this.httpClient.get<any>(environment.apiUrl + 'products/products?size=2' + '&page=' + page);
+  getAll(page: number, size: number) {
+    return this.httpClient.get<any>(environment.apiUrl + 'products/products?size=' + size + '&page=' + page);
   }
 
 }
