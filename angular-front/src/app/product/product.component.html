@@ -1,36 +1,34 @@
 <div class="container">
   <div class="row">
     <div class="col-md-4">
-
+      Filters:
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">Name
+          <!-- <div class="row">
+             <mat-form-field class="example-full-width">
+               <mat-label>Favorite food</mat-label>
+               <input matInput placeholder="Ex. Pizza" value="Sushi">
+             </mat-form-field>
+           </div>-->
+        </li>
+        <li class="list-group-item">Price</li>
+      </ul>
     </div>
     <div class="col-md-8">
-      <div class="list-group">
-        <a href="#!" class="list-group-item list-group-item-action flex-column align-items-start active">
+      <div class="list-group" *ngFor="let product of products">
+        <a href="#!" class="list-group-item list-group-item-action flex-column align-items-start">
           <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-2 h5">List group item heading</h5>
+            <h5 class="mb-2 h5">{{product.name}}</h5>
             <small>3 days ago</small>
           </div>
-          <p class="mb-2">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius
-            blandit.</p>
-          <small>Donec id elit non mi porta.</small>
-        </a>
-        <a href="#!" class="list-group-item list-group-item-action flex-column align-items-start">
-          <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-2 h5">List group item heading</h5>
-            <small class="text-muted">3 days ago</small>
+          <div class="row">
+            <div class="col-10" style="display: inline-block; border-right: 1px solid rgba(0,0,0,.125);">
+              <p class="mb-2">{{product.description}}</p>
+              <small>Donec id elit non mi porta.</small>
+            </div>
+            <div class="col-1 price-tile">
+              {{product.price | currency: 'USD'}}</div>
           </div>
-          <p class="mb-2">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius
-            blandit.</p>
-          <small class="text-muted">Donec id elit non mi porta.</small>
-        </a>
-        <a href="#!" class="list-group-item list-group-item-action flex-column align-items-start">
-          <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-2 h5">List group item heading</h5>
-            <small class="text-muted">3 days ago</small>
-          </div>
-          <p class="mb-2">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius
-            blandit.</p>
-          <small class="text-muted">Donec id elit non mi porta.</small>
         </a>
       </div>
 
