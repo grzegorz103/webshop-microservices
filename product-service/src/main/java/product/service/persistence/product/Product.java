@@ -29,4 +29,7 @@ public class Product {
 
     private Long priceId;
 
+    @Column(name = "description", length = 1000)
+    private String description;
+
 }
