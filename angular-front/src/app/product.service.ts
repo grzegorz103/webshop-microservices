@@ -14,4 +14,7 @@ export class ProductService {
     return this.httpClient.get<any>(environment.apiUrl + 'products/products?size=' + size + '&page=' + page);
   }
 
+  save(value: any) {
+    return this.httpClient.post<any>(environment.apiUrl + 'products/products', value);
+  }
 }

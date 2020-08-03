@@ -2,7 +2,38 @@
   <div class="card-header text-center h2">
     Add new product
   </div>
-  <div class="card-body">
-    This is some text within a panel body.
-  </div>
+  <form [formGroup]="form" (ngSubmit)="sendForm()">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input matInput type="number" formControlName="name">
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field>
+            <mat-label>Description</mat-label>
+            <input matInput type="text" formControlName="description">
+          </mat-form-field>
+        </div>
+      </div>
+      <mat-form-field>
+        <mat-label>Favorite food</mat-label>
+        <mat-select formControlName="category">
+          <mat-option *ngFor="let category of categories" [value]="category.id">
+            {{category.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Price</mat-label>
+        <input matInput type="number" formControlName="price">
+        <span matPrefix>$&nbsp;</span>
+        <span matSuffix>.00</span>
+      </mat-form-field>
+
+      <button type="submit">Add</button>
+    </div>
+  </form>
 </div>
