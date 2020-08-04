@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {OrderService} from "../order.service";
+import {CartWindowService} from "../cart-window.service";
 
 @Component({
   selector: 'app-orders',
@@ -10,7 +11,8 @@ export class OrdersComponent implements OnInit {
 
   orders: any[];
 
-  constructor(private orderService: OrderService) {
+  constructor(private orderService: OrderService,
+              private  cartService: CartWindowService) {
   }
 
   ngOnInit() {
