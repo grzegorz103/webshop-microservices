@@ -2,6 +2,7 @@ package order.service.web.api;
 
 import order.service.services.OrderDTO;
 import order.service.services.OrderService;
+import order.service.services.feign.OrderOut;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,7 @@ public class OrderController {
     }
 
     @GetMapping("/users")
-    public Page<OrderDTO> getByUser(Pageable pageable){
+    public Page<OrderOut> getByUser(Pageable pageable){
         return orderService.getByUser(pageable);
     }
 

@@ -1,6 +1,7 @@
 package order.service.persistence;
 
 import order.service.services.OrderDTO;
+import order.service.services.feign.OrderOut;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -16,5 +17,5 @@ public interface OrderProvider {
 
     void deleteProductFromOrders(Long productId);
 
-    Page<OrderDTO> getByUser(String name, Pageable pageable);
+    Page<OrderOut> getByUser(String name, Pageable pageable);
 }

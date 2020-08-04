@@ -1,6 +1,7 @@
 package order.service.services;
 
-import io.jsonwebtoken.Jwts;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import microservices.common.config.ExchangeNames;
 import microservices.common.config.RoutingKeyNames;
@@ -8,21 +9,23 @@ import microservices.common.events.EventFactory;
 import microservices.common.events.EventPublisher;
 import order.service.persistence.Order;
 import order.service.persistence.OrderProvider;
-import order.service.services.feign.PriceFeignClient;
+import order.service.services.feign.OrderOut;
+import order.service.services.feign.ProductDTO;
+import order.service.services.feign.ProductFeignClient;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Objects;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -30,16 +33,19 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderProvider orderProvider;
 
-    private final PriceFeignClient priceFeignClient;
+    private final ProductFeignClient productFeignClient;
 
     private final EventPublisher eventPublisher;
 
+    private final ObjectMapper objectMapper;
+
     public OrderServiceImpl(OrderProvider orderProvider,
-                            PriceFeignClient priceFeignClient,
-                            EventPublisher eventPublisher) {
+                            ProductFeignClient productFeignClient,
+                            EventPublisher eventPublisher, ObjectMapper objectMapper) {
         this.orderProvider = orderProvider;
-        this.priceFeignClient = priceFeignClient;
+        this.productFeignClient = productFeignClient;
         this.eventPublisher = eventPublisher;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -75,11 +81,17 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Page<OrderDTO> getByUser(Pageable pageable) {
+    public Page<OrderOut> getByUser(Pageable pageable) {
         return orderProvider.getByUser(SecurityContextHolder.getContext().getAuthentication().getName(),
                 pageable.isUnpaged()
                         ? PageRequest.of(0, 20)
-                        : pageable);
+                        : pageable)
+                .map(e -> {
+                            e.setProductDTOs(e.getProductIds().stream().map(this::fetchProductById).collect(Collectors.toList()));
+                            e.setProductIds(null);
+                            return e;
+                        }
+                );
     }
 
     private BigDecimal getCalculatedTotalCost(OrderDTO orderDTO) {
@@ -93,9 +105,18 @@ public class OrderServiceImpl implements OrderService {
 
     private BigDecimal fetchPriceByProductId(Long productId) {
         try {
-            return new BigDecimal(new JSONObject(priceFeignClient.getProductById(productId)).get("price").toString());
+            return new BigDecimal(new JSONObject(productFeignClient.getProductById(productId)).get("price").toString());
         } catch (JSONException e) {
             log.error(e.getMessage());
+        }
+        throw new IllegalStateException();
+    }
+
+    private ProductDTO fetchProductById(Long productId) {
+        try {
+            return objectMapper.readValue(productFeignClient.getProductById(productId), ProductDTO.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
         }
         throw new IllegalStateException();
     }

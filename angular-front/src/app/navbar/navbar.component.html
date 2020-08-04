@@ -13,7 +13,7 @@
         <li class="nav-item">
           <a class="nav-link" routerLink="/products/create">Add new</a>
         </li>   <li class="nav-item">
-        <a class="nav-link" routerLink="/orders">Orders</a>
+        <a class="nav-link" routerLink="/orders" *ngIf="auth.loggedIn">Orders</a>
       </li>
       </ul>
     </div>

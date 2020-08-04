@@ -2,6 +2,7 @@ package order.service.persistence;
 
 import order.service.mappers.OrderMapper;
 import order.service.services.OrderDTO;
+import order.service.services.feign.OrderOut;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -67,9 +68,9 @@ public class OrderProviderImpl implements OrderProvider {
     }
 
     @Override
-    public Page<OrderDTO> getByUser(String name, Pageable pageable) {
+    public Page<OrderOut> getByUser(String name, Pageable pageable) {
         return orderRepository.findAllByUserId(name, pageable)
-                .map(orderMapper::toDTO);
+                .map(orderMapper::toOrderOut);
     }
 
     private static boolean isNotEmpty(Order e) {
