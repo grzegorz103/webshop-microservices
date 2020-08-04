@@ -1,5 +1,8 @@
 <nav class="navbar navbar-expand-lg navbar-dark primary-color">
-  <div class="container">
+  <div class="container"><header>
+    <button (click)="auth.login()" *ngIf="!auth.loggedIn">Log In</button>
+    <button (click)="auth.logout()" *ngIf="auth.loggedIn">Log Out</button>
+  </header>
   <a class="navbar-brand" routerLink="/">Home</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
           aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
