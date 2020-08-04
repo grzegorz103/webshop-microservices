@@ -18,7 +18,7 @@ public class RequestFilter extends ZuulFilter {
 
     @Override
     public int filterOrder() {
-        return 1;
+        return 2;
     }
 
     @Override
@@ -28,11 +28,11 @@ public class RequestFilter extends ZuulFilter {
 
     @Override
     public Object run() {
+        log.info("Filter");
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
 
         log.info(String.format("%s request to %s", request.getMethod(), request.getRequestURL().toString()));
-
         return null;
     }
 
