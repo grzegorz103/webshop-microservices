@@ -20,8 +20,8 @@ public class ProductProviderImpl implements ProductProvider {
     }
 
     @Override
-    public Page<ProductDTO> getAll(Pageable pageable) {
-        return productRepository.findAll(pageable)
+    public Page<ProductDTO> getAll(Pageable pageable, String name) {
+        return productRepository.findAllByFilter(pageable, name)
                 .map(productMapper::toDTO);
     }
 

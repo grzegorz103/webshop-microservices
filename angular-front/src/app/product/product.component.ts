@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ProductService} from "../product.service";
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-product',
@@ -8,19 +9,22 @@ import {ProductService} from "../product.service";
 })
 export class ProductComponent implements OnInit {
 
-  products: any[];
+  products: any;
+  pageSize = 5;
+  nameControl = new FormControl('');
 
   constructor(private productService: ProductService) {
   }
 
   ngOnInit() {
-    this.fetchProducts();
+    this.nameControl.valueChanges.subscribe(v => this.fetchProducts(0));
+    this.fetchProducts(0);
   }
 
-  fetchProducts() {
-    this.productService.getAll().subscribe(res => {
+  fetchProducts(page: number) {
+    this.productService.getAll(page, this.pageSize, this.nameControl.value).subscribe(res => {
       console.log(res)
-      this.products = res.content;
+      this.products = res;
     });
   }
 

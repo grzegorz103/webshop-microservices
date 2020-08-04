@@ -12,6 +12,10 @@ import {MatInputModule} from "@angular/material/input";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { FooterComponent } from './footer/footer.component';
 import {MatIconModule} from "@angular/material/icon";
+import { ProductCreateComponent } from './product-create/product-create.component';
+import {MatOptionModule} from "@angular/material/core";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   declarations: [
@@ -19,13 +23,14 @@ import {MatIconModule} from "@angular/material/icon";
     IndexComponent,
     NavbarComponent,
     ProductComponent,
-    FooterComponent
+    FooterComponent,
+    ProductCreateComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule, MatInputModule,MatIconModule,
-    HttpClientModule, FormsModule,ReactiveFormsModule,
-    BrowserAnimationsModule
+    AppRoutingModule, MatInputModule, MatIconModule,
+    HttpClientModule, FormsModule, ReactiveFormsModule,
+    BrowserAnimationsModule, MatOptionModule, MatAutocompleteModule, MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]
