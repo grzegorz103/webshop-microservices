@@ -75,12 +75,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private BigDecimal fetchPriceById(Long priceId) {
-        System.out.println(priceId);
         try {
-            BigDecimal price = BigDecimal.valueOf(
+            return BigDecimal.valueOf(
                     Double.parseDouble(new JSONObject(priceClient.getPriceById(priceId)).get("price").toString())
             );
-            return price;
         } catch (JSONException e) {
             log.error(e.getMessage());
         }
