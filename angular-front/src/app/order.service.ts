@@ -18,4 +18,8 @@ export class OrderService {
     return this.httpClient.get<any>(environment.apiUrl + 'orders/orders/users');
   }
 
+  create(order: any){
+    return this.httpClient.post(<any>(environment.apiUrl + 'orders/orders'), order);
+  }
+
 }

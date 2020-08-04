@@ -6,7 +6,11 @@
 
 ## General info
 ![Image](https://i.imgur.com/0exejn8.jpg)   
-Webshop API built in microservices architecture.
+Webshop API built in microservices architecture integrated with Auth0.
+
+## Screenshots
+
+![Image](https://i.imgur.com/0zIDllP.png)
 
 ## Technologies
 

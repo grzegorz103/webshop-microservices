@@ -4,15 +4,15 @@
       Shopping cart
     </div>
     <mat-card-content>
-      <mat-selection-list>
-        <mat-list-option *ngFor="let product of cartWindowService.products">
+      <mat-selection-list #cartProducts  (selectionChange)="onGroupsChange(cartProducts.selectedOptions.selected)">
+        <mat-list-option *ngFor="let product of cartWindowService.products" [value]="product">
           {{product.name}} {{product.price}}
         </mat-list-option>
       </mat-selection-list>
     </mat-card-content>
     <mat-card-actions class="mx-auto">
-      <button class="btn btn-danger" mat-button>Remove selected</button>
-      <button class="btn btn-success" mat-button>Buy!</button>
+      <button class="btn btn-danger" mat-button (click)="deleteSelectedProducts()">Remove selected</button>
+      <button class="btn btn-success" mat-button (click)="createOrder()">Buy!</button>
     </mat-card-actions>
   </mat-card>
 
