@@ -1,5 +1,6 @@
 package order.service.services;
 
+import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
 import microservices.common.config.ExchangeNames;
 import microservices.common.config.RoutingKeyNames;
@@ -13,7 +14,9 @@ import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -45,6 +48,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDTO create(OrderDTO orderDTO) {
         Objects.requireNonNull(orderDTO);
+        orderDTO.setUserId(SecurityContextHolder.getContext().getAuthentication().getName());
         orderDTO.setCreationDate(Instant.now());
         orderDTO.setTotalCost(getCalculatedTotalCost(orderDTO));
         eventPublisher.publish(EventFactory.create("Create new " + Order.class.getSimpleName(), ExchangeNames.EVENT_EXCHANGE, RoutingKeyNames.EVENT_CREATE_KEY));

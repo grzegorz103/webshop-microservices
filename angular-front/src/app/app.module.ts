@@ -6,7 +6,7 @@ import {AppComponent} from './app.component';
 import {IndexComponent} from './index/index.component';
 import {NavbarComponent} from './navbar/navbar.component';
 import {ProductComponent} from './product/product.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatInputModule} from "@angular/material/input";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -16,6 +16,7 @@ import { ProductCreateComponent } from './product-create/product-create.componen
 import {MatOptionModule} from "@angular/material/core";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatSelectModule} from "@angular/material/select";
+import {InterceptorService} from "./interceptor.service";
 
 @NgModule({
   declarations: [
@@ -32,7 +33,11 @@ import {MatSelectModule} from "@angular/material/select";
     HttpClientModule, FormsModule, ReactiveFormsModule,
     BrowserAnimationsModule, MatOptionModule, MatAutocompleteModule, MatSelectModule
   ],
-  providers: [],
+  providers: [  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: InterceptorService,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule {
