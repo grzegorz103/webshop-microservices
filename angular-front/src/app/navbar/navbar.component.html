@@ -12,7 +12,9 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/products/create">Add new</a>
-        </li>
+        </li>   <li class="nav-item">
+        <a class="nav-link" routerLink="/orders" *ngIf="auth.loggedIn">Orders</a>
+      </li>
       </ul>
     </div>
       <button class="btn btn-success btn-rounded py-2" (click)="auth.login()" *ngIf="!auth.loggedIn">Log In</button>

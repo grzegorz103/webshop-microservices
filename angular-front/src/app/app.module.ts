@@ -17,6 +17,12 @@ import {MatOptionModule} from "@angular/material/core";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatSelectModule} from "@angular/material/select";
 import {InterceptorService} from "./interceptor.service";
+import { OrdersComponent } from './orders/orders.component';
+import {MatExpansionModule} from "@angular/material/expansion";
+import { CartWindowComponent } from './cart-window/cart-window.component';
+import {MatCardModule} from "@angular/material/card";
+import {MatButtonModule} from "@angular/material/button";
+import {MatListModule} from "@angular/material/list";
 
 @NgModule({
   declarations: [
@@ -25,13 +31,15 @@ import {InterceptorService} from "./interceptor.service";
     NavbarComponent,
     ProductComponent,
     FooterComponent,
-    ProductCreateComponent
+    ProductCreateComponent,
+    OrdersComponent,
+    CartWindowComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule, MatInputModule, MatIconModule,
     HttpClientModule, FormsModule, ReactiveFormsModule,
-    BrowserAnimationsModule, MatOptionModule, MatAutocompleteModule, MatSelectModule
+    BrowserAnimationsModule, MatOptionModule, MatAutocompleteModule, MatSelectModule, MatExpansionModule, MatCardModule, MatButtonModule, MatListModule
   ],
   providers: [  {
     provide: HTTP_INTERCEPTORS,

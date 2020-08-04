@@ -2,6 +2,7 @@ package order.service.persistence;
 
 import order.service.mappers.OrderMapper;
 import order.service.services.OrderDTO;
+import order.service.services.feign.OrderOut;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -56,7 +57,7 @@ public class OrderProviderImpl implements OrderProvider {
     public void deleteProductFromOrders(Long productId) {
         List<Order> orders = orderRepository.findAllByProductIdsIsContaining(productId);
 
-        if(!orders.isEmpty()) {
+        if (!orders.isEmpty()) {
             orders.forEach(order -> order.getProductIds().removeIf(e -> e.equals(productId)));
             orderRepository.saveAll(
                     orders.stream()
@@ -64,6 +65,12 @@ public class OrderProviderImpl implements OrderProvider {
                             .collect(Collectors.toList())
             );
         }
+    }
+
+    @Override
+    public Page<OrderOut> getByUser(String name, Pageable pageable) {
+        return orderRepository.findAllByUserId(name, pageable)
+                .map(orderMapper::toOrderOut);
     }
 
     private static boolean isNotEmpty(Order e) {

@@ -1,4 +1,6 @@
-<div class="container" *ngIf="products">
+
+<app-cart-window></app-cart-window>
+<div class="container" style="position: relative" *ngIf="products">
   <div class="row mt-3">
     <div class="col-md-4">
       <ul class="list-group list-group-flush">
@@ -32,7 +34,7 @@
     </div>
     <div class="col-md-8">
       <div class="list-group" *ngFor="let product of products.content">
-        <a href="#!" class="list-group-item list-group-item-action flex-column align-items-start">
+        <a  class="list-group-item list-group-item-action flex-column align-items-start">
           <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-2 h5">{{product.name}}</h5>
             <small>{{product.category.name}}</small>
@@ -42,7 +44,7 @@
               <p class="mb-2">{{product.description}}</p>
               <small>Donec id elit non mi porta.</small>
             </div>
-            <div class="col-1 price-tile mx-auto my-auto" style="display:inline-block">
+            <div class="col-1 price-tile mx-auto my-auto font-weight-bold" style="display:inline-block" (click)="addToCart(product)">
               {{product.price | currency: 'USD'}}</div>
           </div>
         </a>
@@ -101,5 +103,4 @@
       </ul>
     </nav>
   </div>
-
 </div>
