@@ -6,7 +6,6 @@ import microservices.common.config.*;
 import microservices.common.events.EventPublisher;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -57,16 +56,16 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @HystrixCommand(fallbackMethod = "findAllFallback")
-    public Page<ProductDTO> findAll(Pageable pageable) {
-        Page<ProductDTO> price = productProvider.getAll(pageable)
+    public Page<ProductDTO> findAll(Pageable pageable, String name) {
+        Page<ProductDTO> price = productProvider.getAll(pageable, name)
                 .map(this::mapPriceIdToPrice);
 
         return price;
     }
 
-    private Page<ProductDTO> findAllFallback(Pageable pageable) {
+    private Page<ProductDTO> findAllFallback(Pageable pageable, String name) {
         log.warn("Using findAll fallback method");
-        return productProvider.getAll(pageable);
+        return productProvider.getAll(pageable, null);
     }
 
     private ProductDTO mapPriceIdToPrice(ProductDTO productDTO) {

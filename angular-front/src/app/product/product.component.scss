@@ -7,10 +7,8 @@
 }
 
 .price-tile {
-  display: inline-block;
-  text-align: center;
-  min-width: 16%;
-  margin-top: auto;
-  margin-bottom: auto;
-  flex: 0 0 auto;
+  bottom: 0;
+  width: 100%;
+  padding-top: 20px;
+  padding-bottom: 10px;
 }

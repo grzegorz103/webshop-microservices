@@ -8,6 +8,7 @@ import product.service.services.product.ProductDTO;
 import product.service.services.product.ProductService;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 
 @RestController
@@ -21,12 +22,13 @@ public class ProductController {
     }
 
     @GetMapping
-    public Page<ProductDTO> findAll(Pageable pageable) {
-        return productService.findAll(pageable);
+    public Page<ProductDTO> findAll(Pageable pageable,
+                                    @RequestParam(value = "name", required = false) String name) {
+        return productService.findAll(pageable,name);
     }
 
     @GetMapping("/{id}")
-    public ProductDTO fineById(@PathVariable("id") Long id){
+    public ProductDTO fineById(@PathVariable("id") Long id) {
         return productService.findById(id);
     }
 

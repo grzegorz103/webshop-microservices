@@ -5,7 +5,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface ProductService {
 
-    Page<ProductDTO> findAll(Pageable pageable);
+    Page<ProductDTO> findAll(Pageable pageable, String name);
 
     ProductDTO create(ProductDTO product);
 

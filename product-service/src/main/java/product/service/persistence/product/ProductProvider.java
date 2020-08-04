@@ -6,7 +6,7 @@ import product.service.services.product.ProductDTO;
 
 public interface ProductProvider {
 
-    Page<ProductDTO> getAll(Pageable pageable);
+    Page<ProductDTO> getAll(Pageable pageable, String name);
 
     ProductDTO getOne(Long id);
 

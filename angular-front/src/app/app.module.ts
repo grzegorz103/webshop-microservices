@@ -10,19 +10,27 @@ import {HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatInputModule} from "@angular/material/input";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { FooterComponent } from './footer/footer.component';
+import {MatIconModule} from "@angular/material/icon";
+import { ProductCreateComponent } from './product-create/product-create.component';
+import {MatOptionModule} from "@angular/material/core";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   declarations: [
     AppComponent,
     IndexComponent,
     NavbarComponent,
-    ProductComponent
+    ProductComponent,
+    FooterComponent,
+    ProductCreateComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule, MatInputModule,
-    HttpClientModule, FormsModule,ReactiveFormsModule,
-    BrowserAnimationsModule
+    AppRoutingModule, MatInputModule, MatIconModule,
+    HttpClientModule, FormsModule, ReactiveFormsModule,
+    BrowserAnimationsModule, MatOptionModule, MatAutocompleteModule, MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

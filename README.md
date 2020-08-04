@@ -6,12 +6,12 @@
 
 ## General info
 ![Image](https://i.imgur.com/0exejn8.jpg)   
-Application built in microservices architecture.
+Webshop API built in microservices architecture.
 
 ## Technologies
 
+Back end:
 - Spring Boot, AMQP, Cloud, Data JPA
-- Angular 8
 - RabbitMQ, Hystrix, Feign
 - Eureka, Zuul
 - Hibernate
@@ -19,3 +19,8 @@ Application built in microservices architecture.
 - H2, Lombok
 - JUnit, Mockito
 - Swagger, MapStruct
+
+Front end:
+- Angular 8
+- Material Angular
+- MDBootstrap, Bootstrap
