@@ -15,4 +15,6 @@ public interface OrderProvider {
     void deleteById(Long id);
 
     void deleteProductFromOrders(Long productId);
+
+    Page<OrderDTO> getByUser(String name, Pageable pageable);
 }

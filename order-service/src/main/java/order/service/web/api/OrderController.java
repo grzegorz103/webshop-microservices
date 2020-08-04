@@ -22,6 +22,11 @@ public class OrderController {
         return orderService.getAll(pageable);
     }
 
+    @GetMapping("/users")
+    public Page<OrderDTO> getByUser(Pageable pageable){
+        return orderService.getByUser(pageable);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public OrderDTO save(@RequestBody OrderDTO orderDTO) {

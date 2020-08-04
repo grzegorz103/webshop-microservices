@@ -13,6 +13,8 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -70,6 +72,14 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void deleteProductFromOrders(Long productId) {
         orderProvider.deleteProductFromOrders(productId);
+    }
+
+    @Override
+    public Page<OrderDTO> getByUser(Pageable pageable) {
+        return orderProvider.getByUser(SecurityContextHolder.getContext().getAuthentication().getName(),
+                pageable.isUnpaged()
+                        ? PageRequest.of(0, 20)
+                        : pageable);
     }
 
     private BigDecimal getCalculatedTotalCost(OrderDTO orderDTO) {
