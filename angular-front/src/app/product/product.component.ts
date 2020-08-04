@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ProductService} from "../product.service";
 import {FormControl} from "@angular/forms";
+import {CartWindowService} from "../cart-window.service";
 
 @Component({
   selector: 'app-product',
@@ -13,7 +14,8 @@ export class ProductComponent implements OnInit {
   pageSize = 5;
   nameControl = new FormControl('');
 
-  constructor(private productService: ProductService) {
+  constructor(private productService: ProductService,
+              private cartService: CartWindowService) {
   }
 
   ngOnInit() {
@@ -26,6 +28,10 @@ export class ProductComponent implements OnInit {
       console.log(res)
       this.products = res;
     });
+  }
+
+  addToCart(product: any) {
+    this.cartService.addProduct(product);
   }
 
 }
