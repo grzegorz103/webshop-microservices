@@ -21,4 +21,6 @@ public class OrderDTO {
 
     private BigDecimal totalCost;
 
+    private String userId;
+
 }

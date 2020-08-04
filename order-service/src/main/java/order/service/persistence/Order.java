@@ -28,4 +28,6 @@ public class Order {
     @Column(name = "totalCost", precision = 8, scale = 2)
     private BigDecimal totalCost;
 
+    private String userId;
+
 }

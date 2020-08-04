@@ -1,4 +1,4 @@
-package proxy.service.config;
+package product.service.web.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -59,7 +59,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.cors().configurationSource(this.corsConfigurationSource()).and()
                 .authorizeRequests()
-                .antMatchers("/api").permitAll()
                 .antMatchers("/products/**").permitAll()
                 .and()
                 .oauth2ResourceServer().jwt().and();

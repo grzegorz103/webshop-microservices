@@ -3,6 +3,7 @@ package product.service.web.api;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import product.service.services.product.ProductDTO;
 import product.service.services.product.ProductService;
@@ -23,7 +24,8 @@ public class ProductController {
     @GetMapping
     public Page<ProductDTO> findAll(Pageable pageable,
                                     @RequestParam(value = "name", required = false) String name) {
-        return productService.findAll(pageable,name);
+        System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
+        return productService.findAll(pageable, name);
     }
 
     @GetMapping("/{id}")

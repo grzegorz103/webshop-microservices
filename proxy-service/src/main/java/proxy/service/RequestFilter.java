@@ -33,7 +33,6 @@ public class RequestFilter extends ZuulFilter {
         HttpServletRequest request = ctx.getRequest();
 
         log.info(String.format("%s request to %s", request.getMethod(), request.getRequestURL().toString()));
-
         return null;
     }
 
