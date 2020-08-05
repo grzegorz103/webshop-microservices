@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable, of} from "rxjs";
-import {CategoryService} from "../category.service";
+import {CategoryService} from "../services/category.service";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
-import {ProductService} from "../product.service";
+import {ProductService} from "../services/product.service";
 import {map, startWith} from "rxjs/operators";
 
 @Component({
