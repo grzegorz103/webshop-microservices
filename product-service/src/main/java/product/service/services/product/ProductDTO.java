@@ -26,8 +26,6 @@ public class ProductDTO {
     @NotNull
     private CategoryDTO category;
 
-    private Long priceId;
-
     @NotNull
     private BigDecimal price;
 

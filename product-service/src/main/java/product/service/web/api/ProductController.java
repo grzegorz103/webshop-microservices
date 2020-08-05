@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import product.service.services.product.ProductDTO;
 import product.service.services.product.ProductService;
+import product.service.web.filters.ProductFilter;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -23,9 +24,9 @@ public class ProductController {
 
     @GetMapping
     public Page<ProductDTO> findAll(Pageable pageable,
-                                    @RequestParam(value = "name", required = false) String name) {
+                                    ProductFilter productFilter) {
         System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
-        return productService.findAll(pageable, name);
+        return productService.findAll(pageable, productFilter);
     }
 
     @GetMapping("/{id}")

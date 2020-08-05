@@ -18,6 +18,7 @@ import product.service.persistence.product.Product;
 import product.service.persistence.product.ProductProvider;
 import product.service.services.feign.OrderClient;
 import product.service.services.feign.PriceClient;
+import product.service.web.filters.ProductFilter;
 
 import java.math.BigDecimal;
 
@@ -56,33 +57,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @HystrixCommand(fallbackMethod = "findAllFallback")
-    public Page<ProductDTO> findAll(Pageable pageable, String name) {
-        Page<ProductDTO> price = productProvider.getAll(pageable, name)
-                .map(this::mapPriceIdToPrice);
-
-        return price;
-    }
-
-    private Page<ProductDTO> findAllFallback(Pageable pageable, String name) {
-        log.warn("Using findAll fallback method");
-        return productProvider.getAll(pageable, null);
-    }
-
-    private ProductDTO mapPriceIdToPrice(ProductDTO productDTO) {
-        productDTO.setPrice(fetchPriceById(productDTO.getPriceId()));
-        productDTO.setPriceId(null);
-        return productDTO;
-    }
-
-    private BigDecimal fetchPriceById(Long priceId) {
-        try {
-            return BigDecimal.valueOf(
-                    Double.parseDouble(new JSONObject(priceClient.getPriceById(priceId)).get("price").toString())
-            );
-        } catch (JSONException e) {
-            log.error(e.getMessage());
-        }
-        throw new IllegalStateException();
+    public Page<ProductDTO> findAll(Pageable pageable, ProductFilter productFilter) {
+        return productProvider.getAll(pageable, productFilter);
     }
 
     @Override
@@ -120,8 +96,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO findById(Long id) {
-        ProductDTO one = productProvider.getOne(id);
-        return mapPriceIdToPrice(one);
+        return productProvider.getOne(id);
     }
 
 }
