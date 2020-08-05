@@ -21,7 +21,6 @@ export class CartWindowComponent implements OnInit {
   }
 
   hide() {
-    console.log('aa')
     this.toggleSidebar = !this.toggleSidebar;
   }
 
