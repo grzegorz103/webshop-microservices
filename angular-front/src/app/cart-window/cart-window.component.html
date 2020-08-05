@@ -1,16 +1,19 @@
 <div id="wrapper">
-  <mat-card id="cart-window" class="col-11" *ngIf="hidden">
+
+
+  <mat-card id="cart-window" class="col-11 sidebar" [style.opacity]="toggleSidebar ? '0' : '1'"
+            [style.width]="toggleSidebar ? '0' : ''" [style.visibility]="toggleSidebar ? 'hidden' : 'visible'">
     <div class="card-header text-center h2">
       Shopping cart
     </div>
     <mat-card-content>
-      <mat-selection-list #cartProducts  (selectionChange)="onGroupsChange(cartProducts.selectedOptions.selected)">
+      <mat-selection-list #cartProducts (selectionChange)="onGroupsChange(cartProducts.selectedOptions.selected)">
         <mat-list-option *ngFor="let product of cartWindowService.products" [value]="product">
           {{product.name}} {{product.price}}
         </mat-list-option>
       </mat-selection-list>
     </mat-card-content>
-    <mat-card-actions class="mx-auto">
+    <mat-card-actions class="mx-auto d-flex">
       <button class="btn btn-danger" mat-button (click)="deleteSelectedProducts()">Remove selected</button>
       <button class="btn btn-success" mat-button (click)="createOrder()">Buy!</button>
     </mat-card-actions>

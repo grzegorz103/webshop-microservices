@@ -1,17 +1,17 @@
-#wrapper{
+#wrapper {
   position: fixed;
   left: 0;
-  top:20%;
+  top: 20%;
   min-width: 35px;
   height: 500px;
   z-index: 1000;
   max-width: 90vw;
 }
 
-.mat-card{
-  display:flex;
-  border: 2px solid rgb(0,0,0,0.25);
-  height:500px;
+.mat-card {
+  display: flex;
+  border: 2px solid rgb(0, 0, 0, 0.25);
+  height: 500px;
   width: 400px;
   flex-direction: column;
 }
@@ -20,16 +20,17 @@
   flex-shrink: 0;
 }
 
-.mat-card-content{
+.mat-card-content {
   flex-grow: 1;
   overflow: auto;
 }
 
-.btt{
+.btt {
   position: absolute;
   right: 0;
   top: 50%;
 }
+
 .rotate {
 
   /* Safari */
@@ -44,4 +45,8 @@
   /* Opera */
   -o-transform: rotate(-90deg);
 
+}
+
+.sidebar {
+  transition: all .3s;
 }

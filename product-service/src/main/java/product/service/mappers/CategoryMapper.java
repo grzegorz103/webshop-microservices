@@ -15,7 +15,7 @@ public interface CategoryMapper {
     Category toModel(CategoryDTO categoryDTO);
 
     @Mapping(target = "category", ignore = true)
-    ProductDTO toDTO( Product product);
+    ProductDTO toDTO(Product product);
 
     @Mapping(target = "category", ignore = true)
     Product toModel(ProductDTO productDTO);

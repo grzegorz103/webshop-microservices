@@ -13,6 +13,8 @@ export class ProductComponent implements OnInit {
   products: any;
   pageSize = 5;
   nameControl = new FormControl('');
+  priceFromControl = new FormControl('');
+  priceToControl = new FormControl('');
 
   constructor(private productService: ProductService,
               private cartService: CartWindowService) {
@@ -20,14 +22,20 @@ export class ProductComponent implements OnInit {
 
   ngOnInit() {
     this.nameControl.valueChanges.subscribe(v => this.fetchProducts(0));
+    this.priceFromControl.valueChanges.subscribe(v => this.fetchProducts(0));
+    this.priceToControl.valueChanges.subscribe(v => this.fetchProducts(0));
     this.fetchProducts(0);
   }
 
   fetchProducts(page: number) {
-    this.productService.getAll(page, this.pageSize, this.nameControl.value).subscribe(res => {
-      console.log(res)
-      this.products = res;
-    });
+    this.productService.getAll(page, this.pageSize,
+      this.nameControl.value,
+      this.priceFromControl.value,
+      this.priceToControl.value)
+      .subscribe(res => {
+        console.log(res)
+        this.products = res;
+      });
   }
 
   addToCart(product: any) {

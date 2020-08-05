@@ -27,7 +27,7 @@ public class Product {
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
-    private Long priceId;
+    private BigDecimal price;
 
     @Column(name = "description", length = 1000)
     private String description;
