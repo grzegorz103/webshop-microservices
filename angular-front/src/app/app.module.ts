@@ -16,13 +16,14 @@ import { ProductCreateComponent } from './product-create/product-create.componen
 import {MatOptionModule} from "@angular/material/core";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatSelectModule} from "@angular/material/select";
-import {InterceptorService} from "./interceptor.service";
+import {InterceptorService} from "./services/interceptor.service";
 import { OrdersComponent } from './orders/orders.component';
 import {MatExpansionModule} from "@angular/material/expansion";
 import { CartWindowComponent } from './cart-window/cart-window.component';
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
 import {MatListModule} from "@angular/material/list";
+import { AddressComponent } from './address/address.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import {MatListModule} from "@angular/material/list";
     FooterComponent,
     ProductCreateComponent,
     OrdersComponent,
-    CartWindowComponent
+    CartWindowComponent,
+    AddressComponent
   ],
   imports: [
     BrowserModule,

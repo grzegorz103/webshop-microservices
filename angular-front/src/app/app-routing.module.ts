@@ -4,12 +4,14 @@ import {IndexComponent} from "./index/index.component";
 import {ProductComponent} from "./product/product.component";
 import {ProductCreateComponent} from "./product-create/product-create.component";
 import {OrdersComponent} from "./orders/orders.component";
+import {AddressComponent} from "./address/address.component";
 
 
 const routes: Routes = [
   {path: 'products', component: ProductComponent},
   {path: 'products/create', component: ProductCreateComponent},
   {path: 'orders', component: OrdersComponent},
+  {path: 'address', component: AddressComponent},
   {path: '**', component: IndexComponent}
 ];
 

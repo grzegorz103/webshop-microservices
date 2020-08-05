@@ -11,6 +11,7 @@
         <module>event-service</module>
         <module>price-service</module>
         <module>order-service</module>
+        <module>user-service</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
