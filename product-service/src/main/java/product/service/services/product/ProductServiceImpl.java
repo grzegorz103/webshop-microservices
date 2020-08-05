@@ -8,6 +8,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,8 +19,10 @@ import product.service.persistence.product.Product;
 import product.service.persistence.product.ProductProvider;
 import product.service.services.feign.OrderClient;
 import product.service.services.feign.PriceClient;
+import product.service.web.filters.ProductFilter;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 
 @Service
 @Transactional
@@ -56,33 +59,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @HystrixCommand(fallbackMethod = "findAllFallback")
-    public Page<ProductDTO> findAll(Pageable pageable, String name) {
-        Page<ProductDTO> price = productProvider.getAll(pageable, name)
-                .map(this::mapPriceIdToPrice);
-
-        return price;
+    public Page<ProductDTO> findAll(Pageable pageable, ProductFilter productFilter) {
+        return productProvider.getAll(pageable, productFilter);
     }
 
-    private Page<ProductDTO> findAllFallback(Pageable pageable, String name) {
-        log.warn("Using findAll fallback method");
-        return productProvider.getAll(pageable, null);
-    }
-
-    private ProductDTO mapPriceIdToPrice(ProductDTO productDTO) {
-        productDTO.setPrice(fetchPriceById(productDTO.getPriceId()));
-        productDTO.setPriceId(null);
-        return productDTO;
-    }
-
-    private BigDecimal fetchPriceById(Long priceId) {
-        try {
-            return BigDecimal.valueOf(
-                    Double.parseDouble(new JSONObject(priceClient.getPriceById(priceId)).get("price").toString())
-            );
-        } catch (JSONException e) {
-            log.error(e.getMessage());
-        }
-        throw new IllegalStateException();
+    public Page<ProductDTO> findAllFallback(Pageable pageable, ProductFilter productFilter) {
+        return new PageImpl<>(Collections.emptyList());
     }
 
     @Override
@@ -92,12 +74,6 @@ public class ProductServiceImpl implements ProductService {
                 EventFactory.create("Create new " + Product.class.getSimpleName(), ExchangeNames.EVENT_EXCHANGE, RoutingKeyNames.EVENT_CREATE_KEY)
         );
 
-        Long createdPriceId = (Long) eventPublisher.publishAndReceive(
-                EventFactory.create(productDTO.getPrice(), ExchangeNames.PRICE_EXCHANGE, RoutingKeyNames.PRICE_CREATE_KEY)
-        );
-
-        productDTO.setPriceId(createdPriceId);
-
         return productProvider.save(productDTO);
     }
 
@@ -106,7 +82,7 @@ public class ProductServiceImpl implements ProductService {
         ProductDTO fromDb = productProvider.getOne(id);
         fromDb.setName(productDTO.getName());
         fromDb.setCategory(categoryProvider.getOne(productDTO.getCategory().getId()));
-        fromDb.setPriceId(productDTO.getPriceId());
+        fromDb.setPrice(productDTO.getPrice());
         return productProvider.save(fromDb);
     }
 
@@ -115,13 +91,11 @@ public class ProductServiceImpl implements ProductService {
         ProductDTO productDTO = productProvider.getOne(id);
         productProvider.delete(id);
         orderClient.deleteProductFromOrders(id);
-        eventPublisher.publish(EventFactory.create(productDTO.getPriceId(), ExchangeNames.PRICE_EXCHANGE, RoutingKeyNames.PRICE_DELETE_KEY));
     }
 
     @Override
     public ProductDTO findById(Long id) {
-        ProductDTO one = productProvider.getOne(id);
-        return mapPriceIdToPrice(one);
+        return productProvider.getOne(id);
     }
 
 }

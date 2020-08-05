@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import product.service.mappers.ProductMapper;
 import product.service.services.product.ProductDTO;
+import product.service.web.filters.ProductFilter;
 
 @Component
 public class ProductProviderImpl implements ProductProvider {
@@ -20,8 +21,8 @@ public class ProductProviderImpl implements ProductProvider {
     }
 
     @Override
-    public Page<ProductDTO> getAll(Pageable pageable, String name) {
-        return productRepository.findAllByFilter(pageable, name)
+    public Page<ProductDTO> getAll(Pageable pageable, ProductFilter productFilter) {
+        return productRepository.findAllByFilter(pageable, productFilter)
                 .map(productMapper::toDTO);
     }
 

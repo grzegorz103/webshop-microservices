@@ -10,12 +10,16 @@ export class ProductService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getAll(page: number, size: number, name: string) {
+  getAll(page: number, size: number, name: string, priceFrom: string, priceTo: string) {
     let params = new HttpParams();
     params = params.append('size', String(size));
     params = params.append('page', String(page));
     if (name)
       params = params.append('name', name);
+    if (priceFrom)
+      params = params.append('priceFrom', priceFrom);
+    if (priceTo)
+      params = params.append('priceTo', priceTo);
 
     return this.httpClient.get<any>(environment.apiUrl + 'products/products?size=' + size + '&page=' + page, {params: params});
   }

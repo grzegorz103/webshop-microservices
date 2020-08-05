@@ -13,6 +13,7 @@ import product.service.persistence.product.ProductRepository;
 import product.service.services.feign.PriceClient;
 
 import javax.annotation.PostConstruct;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.stream.IntStream;
 
@@ -46,22 +47,14 @@ public class Initializer {
 
         IntStream.range(0, 10)
                 .forEach(e ->
-                        productRepository.save(Product.builder().name("test1").description("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.").category(cat1).priceId(
-                                (Long) eventPublisher.publishAndReceive(EventFactory.create((long) (e * e), ExchangeNames.PRICE_EXCHANGE, RoutingKeyNames.PRICE_CREATE_KEY))
-                                ).build()
+                        productRepository.save(Product.builder().name("test1").description("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.").category(cat1).price(BigDecimal.valueOf(100.50)).build()
                         )
                 );
-        productRepository.save(Product.builder().name("test1").description("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.").category(cat1).priceId(
-                (Long) eventPublisher.publishAndReceive(EventFactory.create(4L, ExchangeNames.PRICE_EXCHANGE, RoutingKeyNames.PRICE_CREATE_KEY))
-        ).build());
+        productRepository.save(Product.builder().name("test1").description("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.").category(cat1).price(BigDecimal.TEN).build());
 
-        productRepository.save(Product.builder().name("test1").description("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.").category(cat2).priceId(
-                (Long) eventPublisher.publishAndReceive(EventFactory.create(5L, ExchangeNames.PRICE_EXCHANGE, RoutingKeyNames.PRICE_CREATE_KEY))
-        ).build());
+        productRepository.save(Product.builder().name("test1").description("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.").category(cat2).price(BigDecimal.TEN).build());
 
-        productRepository.save(Product.builder().description("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.").name("test1").category(cat3).priceId(
-                (Long) eventPublisher.publishAndReceive(EventFactory.create(6L, ExchangeNames.PRICE_EXCHANGE, RoutingKeyNames.PRICE_CREATE_KEY))
-        ).build());
+        productRepository.save(Product.builder().description("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.").name("test1").category(cat3).price(BigDecimal.TEN).build());
     }
 
 }

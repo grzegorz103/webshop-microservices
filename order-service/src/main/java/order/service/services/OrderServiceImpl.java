@@ -104,21 +104,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private BigDecimal fetchPriceByProductId(Long productId) {
-        try {
-            return new BigDecimal(new JSONObject(productFeignClient.getProductById(productId)).get("price").toString());
-        } catch (JSONException e) {
-            log.error(e.getMessage());
-        }
-        throw new IllegalStateException();
+        return BigDecimal.valueOf(productFeignClient.getProductById(productId).getPrice());
     }
 
     private ProductDTO fetchProductById(Long productId) {
-        try {
-            return objectMapper.readValue(productFeignClient.getProductById(productId), ProductDTO.class);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        throw new IllegalStateException();
+
+        return productFeignClient.getProductById(productId);
     }
 
 }
