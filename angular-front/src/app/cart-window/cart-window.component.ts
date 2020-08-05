@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {CartWindowService} from "../cart-window.service";
 import {MatListOption} from "@angular/material/list";
 import {OrderService} from "../order.service";
+import {animate, state, style, transition, trigger} from "@angular/animations";
 
 @Component({
   selector: 'app-cart-window',
@@ -9,8 +10,8 @@ import {OrderService} from "../order.service";
   styleUrls: ['./cart-window.component.scss']
 })
 export class CartWindowComponent implements OnInit {
-  hidden = true;
   selectedItems: any[];
+  toggleSidebar = false;
 
   constructor(private cartWindowService: CartWindowService,
               private orderService: OrderService) {
@@ -20,7 +21,8 @@ export class CartWindowComponent implements OnInit {
   }
 
   hide() {
-    this.hidden = !this.hidden;
+    console.log('aa')
+    this.toggleSidebar = !this.toggleSidebar;
   }
 
   onGroupsChange(selected: MatListOption[]) {
@@ -38,7 +40,7 @@ export class CartWindowComponent implements OnInit {
     this.orderService.create({productIds: this.cartWindowService.products.map(e => e.id)})
       .subscribe(res => {
         alert('Created new order')
-      this.cartWindowService.clear();
+        this.cartWindowService.clear();
       });
   }
 
