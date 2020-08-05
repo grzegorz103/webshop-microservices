@@ -19,13 +19,13 @@
             <div class="col-6">
               <mat-form-field class="example-full-width" style="width: 100%">
                 <mat-label>Range from</mat-label>
-                <input matInput placeholder="Ex. 1">
+                <input matInput placeholder="Ex. 1" [formControl]="priceFromControl">
               </mat-form-field>
             </div>
             <div class="col-6">
               <mat-form-field class="example-full-width" style="width:100%">
                 <mat-label>Range to</mat-label>
-                <input matInput placeholder="Ex. 100">
+                <input matInput placeholder="Ex. 100" [formControl]="priceToControl">
               </mat-form-field>
             </div>
           </div>
