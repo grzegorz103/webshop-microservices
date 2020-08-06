@@ -1,3 +1,4 @@
+/*
 package order.service.services;
 
 import order.service.persistence.OrderProvider;
@@ -85,3 +86,4 @@ class OrderServiceImplTest {
         verify(orderProvider, times(1)).deleteProductFromOrders(anyLong());
     }
 }
+*/
