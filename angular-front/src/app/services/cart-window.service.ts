@@ -6,6 +6,7 @@ import {Injectable} from '@angular/core';
 export class CartWindowService {
 
   products: any[];
+  private _hidden = true;
 
   constructor() {
     this.loadProducts()
@@ -36,4 +37,21 @@ export class CartWindowService {
     this.products = [];
     this.save();
   }
+
+  get hidden() {
+    return this._hidden;
+  }
+
+  set hidden(value) {
+    this._hidden = value;
+  }
+
+  show() {
+    this._hidden = false;
+  }
+
+  hide() {
+    this._hidden = true;
+  }
+
 }

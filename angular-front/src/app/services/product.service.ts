@@ -27,4 +27,8 @@ export class ProductService {
   save(value: any) {
     return this.httpClient.post<any>(environment.apiUrl + 'products/products', value);
   }
+
+  getById(id: string) {
+    return this.httpClient.get(<any>(environment.apiUrl + 'products/products/' + id));
+  }
 }
