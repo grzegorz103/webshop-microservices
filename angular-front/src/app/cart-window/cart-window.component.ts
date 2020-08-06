@@ -11,7 +11,6 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
 })
 export class CartWindowComponent implements OnInit {
   selectedItems: any[];
-  toggleSidebar = false;
 
   constructor(private cartWindowService: CartWindowService,
               private orderService: OrderService) {
@@ -20,8 +19,8 @@ export class CartWindowComponent implements OnInit {
   ngOnInit() {
   }
 
-  hide() {
-    this.toggleSidebar = !this.toggleSidebar;
+  changeState() {
+    this.cartWindowService.hidden = !this.cartWindowService.hidden;
   }
 
   onGroupsChange(selected: MatListOption[]) {

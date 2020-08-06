@@ -24,6 +24,7 @@ import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
 import {MatListModule} from "@angular/material/list";
 import { AddressComponent } from './address/address.component';
+import { ProductDetailsComponent } from './product-details/product-details.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { AddressComponent } from './address/address.component';
     ProductCreateComponent,
     OrdersComponent,
     CartWindowComponent,
-    AddressComponent
+    AddressComponent,
+    ProductDetailsComponent
   ],
   imports: [
     BrowserModule,
