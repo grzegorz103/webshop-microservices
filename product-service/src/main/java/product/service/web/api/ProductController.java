@@ -25,7 +25,6 @@ public class ProductController {
     @GetMapping
     public Page<ProductDTO> findAll(Pageable pageable,
                                     ProductFilter productFilter) {
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
         return productService.findAll(pageable, productFilter);
     }
 

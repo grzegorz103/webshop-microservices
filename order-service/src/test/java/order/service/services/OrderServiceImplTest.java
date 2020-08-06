@@ -14,6 +14,7 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -50,6 +51,7 @@ class OrderServiceImplTest {
     }
 
     @Test
+    @WithMockUser("username")
     void create() {
         when(orderProvider.save(any(OrderDTO.class)))
                 .thenReturn(mock(OrderDTO.class));

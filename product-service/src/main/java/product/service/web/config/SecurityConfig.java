@@ -60,6 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().configurationSource(this.corsConfigurationSource()).and()
                 .authorizeRequests()
                 .antMatchers("/products/**").permitAll()
+                .antMatchers("/categories/**").permitAll()
                 .and()
                 .oauth2ResourceServer().jwt().and();
     }
