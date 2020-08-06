@@ -17,7 +17,6 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public Address getByUser() {
         String userId = SecurityContextHolder.getContext().getAuthentication().getName();
-        System.out.println(userId);
         return addressRepository.findByUserId(userId)
                 .orElseGet(() -> addressRepository.save(Address.builder().userId(userId).build()));
     }

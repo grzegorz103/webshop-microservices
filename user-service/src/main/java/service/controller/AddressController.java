@@ -24,7 +24,7 @@ public class AddressController {
 
     @PutMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
-    public Address update(@PathVariable("id") Long id,
+    public Address update(@PathVariable("id") String id,
                           @RequestBody Address address) {
         return addressService.update(address);
     }

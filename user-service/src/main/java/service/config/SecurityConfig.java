@@ -1,4 +1,4 @@
-package service.controller;
+package service.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +13,7 @@ import org.springframework.security.oauth2.jwt.*;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import service.config.AudienceValidator;
 
 import java.util.Arrays;
 
