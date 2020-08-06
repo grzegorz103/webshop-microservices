@@ -10,7 +10,7 @@ import product.service.services.category.CategoryService;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("${url.category}")
+@RequestMapping(value = "${url.category}", produces = "application/json")
 public class CategoryController {
 
     private final CategoryService categoryService;
@@ -31,7 +31,7 @@ public class CategoryController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CategoryDTO create(@RequestBody @Valid CategoryDTO category) {
+    public CategoryDTO create(@RequestBody CategoryDTO category) {
                 return categoryService.create(category);
     }
 
