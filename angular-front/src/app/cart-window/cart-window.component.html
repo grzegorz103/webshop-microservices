@@ -1,8 +1,8 @@
 <div id="wrapper">
 
 
-  <mat-card id="cart-window" class="col-11 sidebar" [style.opacity]="toggleSidebar ? '0' : '1'"
-            [style.width]="toggleSidebar ? '0' : ''" [style.visibility]="toggleSidebar ? 'hidden' : 'visible'">
+  <mat-card id="cart-window" class="col-11 sidebar" [style.opacity]="cartWindowService.hidden ? '0' : '1'"
+            [style.width]="cartWindowService.hidden ? '0' : ''" [style.visibility]="cartWindowService.hidden ? 'hidden' : 'visible'">
     <div class="card-header text-center h2">
       Shopping cart
     </div>
@@ -20,6 +20,6 @@
   </mat-card>
 
   <div class="col-1 btt rotate">
-    <button class="btn btn-success " mat-button (click)="hide()">Cart</button>
+    <button class="btn btn-success " mat-button (click)="changeState()">Cart</button>
   </div>
 </div>
