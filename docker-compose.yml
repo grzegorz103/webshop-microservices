@@ -1,0 +1,86 @@
+version: '3'
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.8.1
+    container_name: es01
+    environment:
+      - node.name=es01
+      - cluster.name=es-docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - data01:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    networks:
+      - elastic
+
+  rabbitmq:
+    image: rabbitmq
+    command: rabbitmq-server
+    expose:
+      - 5672
+      - 15672
+
+  discovery:
+    image: microservice-docker-discovery-service:0.0.1-SNAPSHOT
+    ports:
+      - 8761:8761
+
+  proxy-service:
+    image: microservice-docker-proxy-service:0.0.1-SNAPSHOT
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://discovery:8761/eureka
+    depends_on:
+      - discovery
+
+  product-service:
+    image: microservice-docker-product-service:0.0.1-SNAPSHOT
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://discovery:8761/eureka
+    depends_on:
+      - discovery
+      - rabbitmq
+
+  order-service:
+    image: microservice-docker-order-service:0.0.1-SNAPSHOT
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://discovery:8761/eureka
+    depends_on:
+      - discovery
+      - rabbitmq
+
+  event-service:
+    image: microservice-docker-event-service:0.0.1-SNAPSHOT
+    environment:
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://discovery:8761/eureka
+    depends_on:
+      - discovery
+      - rabbitmq
+
+  user-service:
+    image: microservice-docker-user-service:0.0.1-SNAPSHOT
+    environment:
+      - ELASTICSEARCH_IP=192.168.99.100:9200
+      - JAVA_OPTS=
+        -DEUREKA_SERVER=http://discovery:8761/eureka
+    depends_on:
+      - discovery
+      - rabbitmq
+      - elasticsearch
+
+volumes:
+  data01:
+    driver: local
+
+networks:
+  elastic:
+    driver: bridge
