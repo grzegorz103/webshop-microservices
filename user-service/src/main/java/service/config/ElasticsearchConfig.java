@@ -15,7 +15,7 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 @EnableElasticsearchRepositories(basePackages = "service.dao")
 public class ElasticsearchConfig {
 
-    @Value("elasticsearch.ip")
+    @Value("${elasticsearch.ip}")
     private String elasticsearchIp;
 
     @Bean
