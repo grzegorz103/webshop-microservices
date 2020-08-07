@@ -1,0 +1,117 @@
+version: '3'
+services:
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.8.0
+    environment:
+      - node.name=elasticsearch
+      - cluster.name=es-docker-cluster
+      #      - discovery.seed_hosts=es02,es03
+      - cluster.initial_master_nodes=elasticsearch
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms750m -Xmx750m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    #    mem_limit: 500m
+    #    cap_add:
+    #      - IPC_LOCK
+    #    volumes:
+    #      - data01:/usr/share/elasticsearch/data
+    expose:
+      - 9200
+
+  rabbitmq:
+    image: rabbitmq
+    command: rabbitmq-server
+    expose:
+      - 5672
+      - 15672
+
+  discovery:
+    image: microservice-docker-discovery-service:0.0.1-SNAPSHOT
+    container_name: discovery
+    ports:
+      - 8761:8761
+
+  proxy-service:
+    image: microservice-docker-proxy-service:0.0.1-SNAPSHOT
+    container_name: proxy-service
+    environment:
+      - EUREKA_SERVER=http://discovery:8761/eureka
+      - JAVA_OPTS=
+        -Dspring.profiles.active=prod
+    depends_on:
+      - discovery
+    ports:
+      - 8080:8080
+    links:
+      - discovery:discovery
+
+  product-service:
+    image: microservice-docker-product-service:0.0.1-SNAPSHOT
+    environment:
+      - EUREKA_SERVER=http://discovery:8761/eureka
+      - JAVA_OPTS=
+        -Dspring.profiles.active=prod
+    depends_on:
+      - discovery
+      - rabbitmq
+    links:
+      - discovery:discovery
+    expose:
+      - 8081
+
+  order-service:
+    image: microservice-docker-order-service:0.0.1-SNAPSHOT
+    container_name: order-service
+    environment:
+      - EUREKA_SERVER=http://discovery:8761/eureka
+      - JAVA_OPTS=
+        -Dspring.profiles.active=prod
+    depends_on:
+      - discovery
+      - rabbitmq
+    links:
+      - discovery:discovery
+    expose:
+      - 8084
+
+  event-service:
+    image: microservice-docker-event-service:0.0.1-SNAPSHOT
+    environment:
+      - EUREKA_SERVER=http://discovery:8761/eureka
+      - JAVA_OPTS=
+        -Dspring.profiles.active=prod
+    depends_on:
+      - discovery
+      - rabbitmq
+    links:
+      - discovery:discovery
+    expose:
+      - 8079
+
+  user-service:
+    image: microservice-docker-user-service:0.0.1-SNAPSHOT
+    environment:
+      - ELASTICSEARCH_IP=192.168.99.100:9200
+      - EUREKA_SERVER=http://discovery:8761/eureka
+      - JAVA_OPTS=
+        -Dspring.profiles.active=prod
+    depends_on:
+      - discovery
+      - elasticsearch
+      - rabbitmq
+    links:
+      - discovery:discovery
+    expose:
+      - 8085
+
+volumes:
+  data01:
+    driver: local
