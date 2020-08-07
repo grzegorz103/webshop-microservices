@@ -43,4 +43,4 @@ jobs:
             - ~/.m2
           key: v1-dependencies-{{ checksum "pom.xml" }}
 
-      - run: mvn package -P prod # run the actual tests
+      - run: mvn test -P prod # run the actual tests
