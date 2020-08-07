@@ -1,6 +1,7 @@
 package service.config;
 
 import org.elasticsearch.client.RestHighLevelClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -14,10 +15,13 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 @EnableElasticsearchRepositories(basePackages = "service.dao")
 public class ElasticsearchConfig {
 
+    @Value("${elasticsearch.ip}")
+    private String elasticsearchIp;
+
     @Bean
     public RestHighLevelClient client() {
         ClientConfiguration clientConfiguration = ClientConfiguration.builder()
-                .connectedTo("192.168.99.100:9200")
+                .connectedTo(elasticsearchIp)
                 .build();
 
         return RestClients.create(clientConfiguration).rest();

@@ -2,7 +2,9 @@
 
 ## Table of contents
 * [General info](#general-info)
+* [Screen shots](#screenshots)
 * [Technologies](#technologies)
+* [Setup](#setup)
 
 ## General info
 ![Image](https://i.imgur.com/0exejn8.jpg)   
@@ -29,3 +31,27 @@ Front end:
 - Angular 8
 - Material Angular
 - MDBootstrap, Bootstrap
+
+
+## Setup
+### Prerequisites
+
+- Angular 8 or greater is required
+```$xslt
+$ npm install -g @angular/cli
+``` 
+- Java 8+
+
+### Deployment
+
+Run back-end with:
+```
+$ docker-compose up
+```
+Run front-end with:
+```
+$ cd angular-front
+$ npm install
+$ ng serve
+```
+Run browser and head to ```http://localhost:4200```
