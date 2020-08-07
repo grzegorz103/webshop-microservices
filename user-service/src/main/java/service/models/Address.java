@@ -48,7 +48,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
-@Document(indexName = "user-service", type = "address")
+@Document(indexName = "user-index", type = "address")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
