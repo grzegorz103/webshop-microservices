@@ -1,21 +1,29 @@
 package service.config;
 
 import org.springframework.beans.factory.annotation.Value;
+import net.minidev.json.JSONArray;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
 import org.springframework.security.oauth2.core.OAuth2TokenValidator;
 import org.springframework.security.oauth2.jwt.*;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import service.config.AudienceValidator;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Configuration
 @EnableWebSecurity
@@ -46,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST"));
         configuration.setAllowCredentials(true);
         //the below three lines will add the relevant CORS response headers
         configuration.addAllowedOrigin("*");
@@ -56,12 +64,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.cors().configurationSource(this.corsConfigurationSource()).and()
                 .authorizeRequests()
                 .antMatchers("/orders/**").authenticated()
+                //            .antMatchers("/address/**").hasAuthority("SCOPE_read:address")
                 .and()
-                .oauth2ResourceServer().jwt().and();
+                .oauth2ResourceServer().jwt()
+                .jwtAuthenticationConverter(new JwtAuthenticationConverter() {
+                    @Override
+                    protected Collection<GrantedAuthority> extractAuthorities(final Jwt jwt) {
+                        Collection<GrantedAuthority> authorities = super.extractAuthorities(jwt);
+                        authorities.clear();
+                        ((JSONArray) jwt.getClaim("permissions"))
+                                .iterator()
+                                .forEachRemaining(e -> authorities.add(new SimpleGrantedAuthority((String) e)));
+
+                        return authorities;
+                    }
+                });
     }
 }
