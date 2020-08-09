@@ -64,6 +64,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public Page<ProductDTO> findAllFallback(Pageable pageable, ProductFilter productFilter) {
+        log.warn("Using fallback method");
         return new PageImpl<>(Collections.emptyList());
     }
 
