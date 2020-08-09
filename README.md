@@ -19,7 +19,7 @@ Webshop API built in microservices architecture integrated with Auth0.
 Back end:
 - Spring Boot, AMQP, Cloud, Data JPA
 - RabbitMQ, Hystrix, Feign
-- Elasticsearch
+- Elasticsearch, PostgreSQL
 - Eureka, Zuul
 - Hibernate
 - Gradle/Maven
