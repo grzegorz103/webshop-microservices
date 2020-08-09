@@ -11,7 +11,7 @@
           <a class="nav-link" routerLink="/products">Products <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/products/create">Add new</a>
+          <a class="nav-link" routerLink="/products/create" *ngIf="auth.hasPermission('role:admin')">Add new</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/orders" *ngIf="auth.loggedIn">Orders</a>
