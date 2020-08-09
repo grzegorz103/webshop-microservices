@@ -1,14 +1,18 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import createAuth0Client from '@auth0/auth0-spa-js';
 import Auth0Client from '@auth0/auth0-spa-js/dist/typings/Auth0Client';
-import { from, of, Observable, BehaviorSubject, combineLatest, throwError } from 'rxjs';
-import { tap, catchError, concatMap, shareReplay } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import {from, of, Observable, BehaviorSubject, combineLatest, throwError} from 'rxjs';
+import {tap, catchError, concatMap, shareReplay, mergeMap} from 'rxjs/operators';
+import {Router} from '@angular/router';
+import {JwtHelperService} from "@auth0/angular-jwt";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  helper = new JwtHelperService();
+  permissions: string[] =[];
+
   // Create an observable of Auth0 instance of client
   auth0Client$ = (from(
     createAuth0Client({
@@ -28,11 +32,38 @@ export class AuthService {
   isAuthenticated$ = this.auth0Client$.pipe(
     concatMap((client: Auth0Client) => from(client.isAuthenticated())),
     tap(res => this.loggedIn = res)
-  );getTokenSilently$(options?): Observable<string> {
+  );
+
+  getTokenSilently$(options?): Observable<string> {
     return this.auth0Client$.pipe(
       concatMap((client: Auth0Client) => from(client.getTokenSilently(options)))
     );
   }
+
+  /* async hasPermission(_permission: string): Promise<boolean> {
+     if (this.loggedIn) {
+       return new Promise((resolve, reject) => {
+         this.getTokenSilently$().toPromise()
+           .then(token =>
+             resolve(this.helper.decodeToken(token).permissions.some(p => p === _permission)))
+           .catch((err) => {
+             reject(false)
+           })
+       });
+     }
+     return false;
+   }*/
+
+  setPermissions() {
+    this.getTokenSilently$().toPromise()
+      .then(token => this.permissions = this.helper.decodeToken(token).permissions);
+  }
+
+  hasPermission(_permission: string) {
+    return this.permissions.some(permission => permission === _permission);
+  }
+
+
   handleRedirectCallback$ = this.auth0Client$.pipe(
     concatMap((client: Auth0Client) => from(client.handleRedirectCallback()))
   );
@@ -65,6 +96,8 @@ export class AuthService {
     const checkAuth$ = this.isAuthenticated$.pipe(
       concatMap((loggedIn: boolean) => {
         if (loggedIn) {
+          this.setPermissions();
+
           // If authenticated, get user and set in app
           // NOTE: you could pass options here if needed
           return this.getUser$();
@@ -111,6 +144,7 @@ export class AuthService {
       // Subscribe to authentication completion observable
       // Response will be an array of user and login status
       authComplete$.subscribe(([user, loggedIn]) => {
+        this.setPermissions();
         // Redirect to target route after callback processing
         this.router.navigate([targetRoute]);
       });

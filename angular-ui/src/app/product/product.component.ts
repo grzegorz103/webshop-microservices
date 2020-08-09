@@ -40,6 +40,7 @@ export class ProductComponent implements OnInit {
 
   addToCart(product: any) {
     this.cartService.addProduct(product);
+    this.cartService.show();
   }
 
 }

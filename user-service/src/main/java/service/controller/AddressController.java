@@ -22,7 +22,7 @@ public class AddressController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('read:dddcs')")
+    @PreAuthorize("isAuthenticated()")
     public Address getUserAddress(@AuthenticationPrincipal Principal principal) {
         System.out.println("Scopy:");
         for (GrantedAuthority authority : SecurityContextHolder.getContext().getAuthentication().getAuthorities()) {
