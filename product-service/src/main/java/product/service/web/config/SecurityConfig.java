@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST"));
         configuration.setAllowCredentials(true);
         //the below three lines will add the relevant CORS response headers
         configuration.addAllowedOrigin("*");
@@ -55,9 +55,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.cors().configurationSource(this.corsConfigurationSource()).and()
+        http
+                .csrf()
+                .disable()
+                .cors().configurationSource(this.corsConfigurationSource()).and()
                 .authorizeRequests()
                 .antMatchers("/products/**").permitAll()
                 .antMatchers("/categories/**").permitAll()

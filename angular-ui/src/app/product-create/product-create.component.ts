@@ -4,6 +4,7 @@ import {CategoryService} from "../services/category.service";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {ProductService} from "../services/product.service";
 import {map, startWith} from "rxjs/operators";
+import {AuthService} from "../services/auth.service";
 
 @Component({
   selector: 'app-product-create',
