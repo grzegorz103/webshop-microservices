@@ -25,6 +25,8 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatListModule} from "@angular/material/list";
 import { AddressComponent } from './address/address.component';
 import { ProductDetailsComponent } from './product-details/product-details.component';
+import {NgxGalleryModule} from "ngx-gallery";
+import {LightboxModule} from "ngx-lightbox";
 
 @NgModule({
   declarations: [
@@ -42,7 +44,7 @@ import { ProductDetailsComponent } from './product-details/product-details.compo
   imports: [
     BrowserModule,
     AppRoutingModule, MatInputModule, MatIconModule,
-    HttpClientModule, FormsModule, ReactiveFormsModule,
+    HttpClientModule, FormsModule, ReactiveFormsModule, LightboxModule,
     BrowserAnimationsModule, MatOptionModule, MatAutocompleteModule, MatSelectModule, MatExpansionModule, MatCardModule, MatButtonModule, MatListModule
   ],
   providers: [  {

@@ -14,8 +14,9 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("select p from Product p " +
-            "where (p.name like concat('%',:#{#productFilter.name},'%') or :#{#productFilter.name} is null) " +
+            "where (:#{#productFilter.name} is null or p.name like cast(concat('%',:#{#productFilter.name},'%') as text)) " +
             "and (:#{#productFilter.priceFrom} is null or p.price > :#{#productFilter.priceFrom}) " +
-            "and (:#{#productFilter.priceTo} is null or p.price < :#{#productFilter.priceTo}) ")
+            "and (:#{#productFilter.priceTo} is null or p.price < :#{#productFilter.priceTo}) " +
+            "and (:#{#productFilter.categoryId} is null or p.category.id = :#{#productFilter.categoryId})")
     Page<Product> findAllByFilter(Pageable pageable, @Param("productFilter") ProductFilter productFilter);
 }

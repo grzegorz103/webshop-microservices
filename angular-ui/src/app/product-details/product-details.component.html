@@ -7,6 +7,12 @@
 
     <div class="card-body">
       {{product.description}}
+      <hr>
+      <div class="row">
+        <span *ngFor="let image of images; let i=index" class="col-md-3">
+          <img [src]="image.thumb" (click)="open(i)" class="image" alt=""/>
+        </span>
+      </div>
     </div>
 
     <div class="card-footer">
@@ -17,7 +23,6 @@
         <button (click)="addToCart()" class="btn btn-success">Add to cart</button>
       </div>
     </div>
-
   </div>
 
 </div>
