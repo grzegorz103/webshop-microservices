@@ -17,4 +17,6 @@ public class ProductFilter {
 
     private BigDecimal priceTo;
 
+    private Long categoryId;
+
 }

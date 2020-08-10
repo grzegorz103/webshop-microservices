@@ -29,6 +29,22 @@
             </div>
           </div>
         </li>
+        <li class="list-group-item"><span class="mx-auto" style="display:table">Category</span>
+          <div class="row">
+            <div class="col-12">
+              <mat-form-field >
+                <mat-label>Category</mat-label>
+                <mat-select [formControl]="categoryControl" (selectionChange)="fetchProducts(0)">
+                  <mat-option [value]="null">All</mat-option>
+                  <mat-divider></mat-divider>
+                  <mat-option *ngFor="let category of categories.content" [value]="category.id">
+                    {{category.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </li>
         <li class="list-group-item">
           Found {{products.totalElements}} results
         </li>
@@ -41,10 +57,10 @@
             <h5 class="mb-2 h5">{{product.name}}</h5>
             <small>{{product.category.name}}</small>
           </div>
-          <div class="row"style="text-align: justify">
+          <div class="row" style="text-align: justify">
             <div class="col-md-10" style="display: inline-block" [routerLink]="['/products', product.id]">
               <img [src]="product.images[0]" style="width:100px;height:auto; float:left;margin-right: 6px;">
-              <span > {{product.description}}</span>
+              <span> {{product.description}}</span>
               <small>Donec id elit non mi porta.</small>
             </div>
             <div class="col-md-2">
