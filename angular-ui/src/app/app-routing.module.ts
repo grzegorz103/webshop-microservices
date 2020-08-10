@@ -6,6 +6,7 @@ import {ProductCreateComponent} from "./product-create/product-create.component"
 import {OrdersComponent} from "./orders/orders.component";
 import {AddressComponent} from "./address/address.component";
 import {ProductDetailsComponent} from "./product-details/product-details.component";
+import {EventLogComponent} from "./event-log/event-log.component";
 
 
 const routes: Routes = [
@@ -14,6 +15,7 @@ const routes: Routes = [
   {path: 'products/:id', component: ProductDetailsComponent},
   {path: 'orders', component: OrdersComponent},
   {path: 'address', component: AddressComponent},
+  {path: 'events', component: EventLogComponent},
   {path: '**', component: IndexComponent}
 ];
 
