@@ -8,6 +8,7 @@ import product.service.persistence.category.Category;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -31,5 +32,8 @@ public class Product {
 
     @Column(name = "description", length = 1000)
     private String description;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> images;
 
 }

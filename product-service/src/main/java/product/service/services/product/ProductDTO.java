@@ -10,6 +10,7 @@ import product.service.services.category.CategoryDTO;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -31,5 +32,8 @@ public class ProductDTO {
 
     @NotNull
     private String description;
+
+    @NotNull
+    private List<String> images;
 
 }
