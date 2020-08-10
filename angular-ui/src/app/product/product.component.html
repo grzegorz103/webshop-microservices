@@ -35,15 +35,16 @@
       </ul>
     </div>
     <div class="col-md-9">
-      <div class="list-group" *ngFor="let product of products.content" >
-        <a class="list-group-item list-group-item-action flex-column align-items-start" >
+      <div class="list-group" *ngFor="let product of products.content">
+        <a class="list-group-item list-group-item-action flex-column align-items-start">
           <div class="d-flex w-100 justify-content-between" [routerLink]="['/products', product.id]">
             <h5 class="mb-2 h5">{{product.name}}</h5>
             <small>{{product.category.name}}</small>
           </div>
-          <div class="row">
+          <div class="row"style="text-align: justify">
             <div class="col-md-10" style="display: inline-block" [routerLink]="['/products', product.id]">
-              <p class="mb-2">{{product.description}}</p>
+              <img [src]="product.images[0]" style="width:100px;height:auto; float:left;margin-right: 6px;">
+              <span > {{product.description}}</span>
               <small>Donec id elit non mi porta.</small>
             </div>
             <div class="col-md-2">
@@ -51,7 +52,10 @@
                    (click)="addToCart(product)">
                 {{product.price | currency: 'USD'}}
               </div>
-              <button class="btn-success" style="border-radius: 5px; border:none; padding: 5px 10px;box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.16)" (click)="addToCart(product)">Add to cart</button>
+              <button class="btn-success"
+                      style="border-radius: 5px; border:none; padding: 5px 10px;box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.16)"
+                      (click)="addToCart(product)">Add to cart
+              </button>
             </div>
           </div>
         </a>
