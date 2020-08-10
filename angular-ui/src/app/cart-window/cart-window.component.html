@@ -2,14 +2,30 @@
 
 
   <mat-card id="cart-window" class="col-11 sidebar" [style.opacity]="cartWindowService.hidden ? '0' : '1'"
-            [style.width]="cartWindowService.hidden ? '0' : ''" [style.visibility]="cartWindowService.hidden ? 'hidden' : 'visible'">
-    <div class="card-header text-center h2"style="white-space: nowrap">
+            [style.width]="cartWindowService.hidden ? '0' : ''"
+            [style.visibility]="cartWindowService.hidden ? 'hidden' : 'visible'">
+    <div class="card-header text-center h2" style="white-space: nowrap">
       Shopping cart
     </div>
     <mat-card-content>
       <mat-selection-list #cartProducts (selectionChange)="onGroupsChange(cartProducts.selectedOptions.selected)">
         <mat-list-option *ngFor="let product of cartWindowService.products" [value]="product">
-          {{product.name}} {{product.price}}
+          <div style="display:flex; justify-content:space-between;align-items:center">
+            <div style="display:flex;align-items:center">
+              <div style="display:flex; flex-direction:column">
+                <div>
+                  <span matLine> {{product.name}}</span>
+                </div>
+                <div style="margin-top:-30px">
+                  <p matLine>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div>
+              {{product.price | currency: 'USD'}}
+            </div>
+          </div>
         </mat-list-option>
       </mat-selection-list>
     </mat-card-content>

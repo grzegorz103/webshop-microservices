@@ -46,8 +46,10 @@ $ npm install -g @angular/cli
 
 Run back-end with:
 ```
+$ mvn clean install -DskipTests 
 $ docker-compose up
 ```
+
 Run front-end with:
 ```
 $ cd angular-front
