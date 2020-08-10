@@ -18,7 +18,9 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/address" *ngIf="auth.loggedIn">Address</a>
-        </li>
+        </li> <li class="nav-item">
+        <a class="nav-link" routerLink="/events" *ngIf="auth.loggedIn">Event logs</a>
+      </li>
       </ul>
     </div>
     <button class="btn btn-success btn-rounded py-2" (click)="auth.login()" *ngIf="!auth.loggedIn">Log In</button>
