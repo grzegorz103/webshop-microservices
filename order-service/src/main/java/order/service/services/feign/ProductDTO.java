@@ -2,6 +2,8 @@ package order.service.services.feign;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class ProductDTO {
 
@@ -9,4 +11,5 @@ public class ProductDTO {
 
     private Long price;
 
+    private List<String> images;
 }

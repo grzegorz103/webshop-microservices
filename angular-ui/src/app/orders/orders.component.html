@@ -15,8 +15,10 @@
           {{order.creationDate | date}}
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <div *ngFor="let product of order.productDTOs">
-        {{product.name}} {{product.price | currency: 'USD'}}
+      <div *ngFor="let product of order.productDTOs" class="d-flex justify-content-around product-item">
+        <img [src]="product.images[0]"
+             style="width: 200px; height: auto; max-height: 200px">
+        <span>{{product.name}}</span> <span>{{product.price | currency: 'USD'}}</span>
       </div>
     </mat-expansion-panel>
     <div *ngIf="orders && orders.length === 0">

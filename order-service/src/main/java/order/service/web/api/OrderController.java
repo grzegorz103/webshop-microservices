@@ -24,7 +24,7 @@ public class OrderController {
     }
 
     @GetMapping("/users")
-    public Page<OrderOut> getByUser(Pageable pageable){
+    public Page<OrderOut> getByUser(Pageable pageable) {
         return orderService.getByUser(pageable);
     }
 

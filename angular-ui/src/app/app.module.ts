@@ -27,6 +27,7 @@ import { AddressComponent } from './address/address.component';
 import { ProductDetailsComponent } from './product-details/product-details.component';
 import {NgxGalleryModule} from "ngx-gallery";
 import {LightboxModule} from "ngx-lightbox";
+import { EventLogComponent } from './event-log/event-log.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import {LightboxModule} from "ngx-lightbox";
     OrdersComponent,
     CartWindowComponent,
     AddressComponent,
-    ProductDetailsComponent
+    ProductDetailsComponent,
+    EventLogComponent
   ],
   imports: [
     BrowserModule,
