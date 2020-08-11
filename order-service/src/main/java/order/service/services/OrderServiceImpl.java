@@ -9,6 +9,7 @@ import microservices.common.events.EventFactory;
 import microservices.common.events.EventPublisher;
 import order.service.persistence.Order;
 import order.service.persistence.OrderProvider;
+import order.service.persistence.OrderState;
 import order.service.services.feign.OrderOut;
 import order.service.services.feign.ProductDTO;
 import order.service.services.feign.ProductFeignClient;
@@ -49,7 +50,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Page<OrderDTO> getAll(Pageable pageable) {
+    public Page<OrderOut> getAll(Pageable pageable) {
         return orderProvider.getAll(pageable);
     }
 
@@ -59,6 +60,7 @@ public class OrderServiceImpl implements OrderService {
         orderDTO.setUserId(SecurityContextHolder.getContext().getAuthentication().getName());
         orderDTO.setCreationDate(Instant.now());
         orderDTO.setTotalCost(getCalculatedTotalCost(orderDTO));
+        orderDTO.setOrderState(OrderState.CREATED);
         eventPublisher.publish(EventFactory.create("Create new " + Order.class.getSimpleName(), ExchangeNames.EVENT_EXCHANGE, RoutingKeyNames.EVENT_CREATE_KEY));
 
         return orderProvider.save(orderDTO);

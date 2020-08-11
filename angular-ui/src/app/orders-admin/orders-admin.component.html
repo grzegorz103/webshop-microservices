@@ -14,7 +14,11 @@
         <mat-panel-description>
           {{order.creationDate | date}}
         </mat-panel-description>
+        <mat-panel-description>
+          <p class="order-state">{{order.orderState  }}
+        </mat-panel-description>
       </mat-expansion-panel-header>
+      <button (click)="updateState(order)" class="btn btn-success">Update order state</button>
       <div *ngFor="let product of order.productDTOs" class="d-flex justify-content-around product-item">
         <img [src]="product.images[0]"
              style="width: 200px; height: auto; max-height: 200px">

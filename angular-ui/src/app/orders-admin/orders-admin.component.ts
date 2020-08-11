@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {OrderService} from "../services/order.service";
 import {CartWindowService} from "../services/cart-window.service";
 
@@ -22,6 +22,24 @@ export class OrdersAdminComponent implements OnInit {
   fetchOrders() {
     this.orderService.getAll(0, 20, null)
       .subscribe(res => this.orders = res.content);
+  }
+
+  updateState(order: any) {
+    if (order) {
+      switch (order.orderState) {
+        case 'CREATED':
+          order.orderState = 'DONE';
+          break;
+        case 'DONE':
+          order.orderState = 'ABANDONED';
+          break;
+        case 'ABANDONED':
+          order.orderState = 'CREATED';
+          break;
+      }
+      this.orderService.update(order)
+        .subscribe(res => this.fetchOrders());
+    }
   }
 
 }
