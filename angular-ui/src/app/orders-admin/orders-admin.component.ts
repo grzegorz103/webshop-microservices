@@ -1,13 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {OrderService} from "../services/order.service";
 import {CartWindowService} from "../services/cart-window.service";
 
 @Component({
-  selector: 'app-orders',
-  templateUrl: './orders.component.html',
-  styleUrls: ['./orders.component.scss']
+  selector: 'app-orders-admin',
+  templateUrl: './orders-admin.component.html',
+  styleUrls: ['./orders-admin.component.scss']
 })
-export class OrdersComponent implements OnInit {
+export class OrdersAdminComponent implements OnInit {
 
   orders: any[];
 
@@ -20,7 +20,7 @@ export class OrdersComponent implements OnInit {
   }
 
   fetchOrders() {
-    this.orderService.getAllByUser(0, 20, null)
+    this.orderService.getAll(0, 20, null)
       .subscribe(res => this.orders = res.content);
   }
 

@@ -10,7 +10,7 @@ export class OrderService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getAll(page: number | 0, size: number | 20, name: string) {
+  getAllByUser(page: number | 0, size: number | 20, name: string) {
     let params = new HttpParams();
     params = params.append('size', String(size));
     params = params.append('page', String(page));
@@ -20,6 +20,14 @@ export class OrderService {
 
   create(order: any){
     return this.httpClient.post(<any>(environment.apiUrl + 'orders/orders'), order);
+  }
+
+  getAll(page: number | 0, size: number | 20, name: string) {
+    let params = new HttpParams();
+    params = params.append('size', String(size));
+    params = params.append('page', String(page));
+
+    return this.httpClient.get<any>(environment.apiUrl + 'orders/orders');
   }
 
 }
