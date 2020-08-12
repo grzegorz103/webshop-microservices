@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import order.service.services.OrderDTO;
 import order.service.services.OrderService;
+import order.service.services.feign.OrderOut;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,7 +48,7 @@ public class OrderControllerTest {
     @WithMockUser(username = "username")
     void getAllTest() throws Exception {
         when(orderService.getAll(any(Pageable.class)))
-                .thenReturn(new PageImpl<>(Arrays.asList(new OrderDTO(), new OrderDTO())));
+                .thenReturn(new PageImpl<>(Arrays.asList(new OrderOut(), new OrderOut())));
 
         mockMvc.perform(get(orderUrl))
                 .andExpect(status().isOk());

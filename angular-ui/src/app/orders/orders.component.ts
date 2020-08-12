@@ -20,7 +20,7 @@ export class OrdersComponent implements OnInit {
   }
 
   fetchOrders() {
-    this.orderService.getAll(0, 20, null)
+    this.orderService.getAllByUser(0, 20, null)
       .subscribe(res => this.orders = res.content);
   }
 

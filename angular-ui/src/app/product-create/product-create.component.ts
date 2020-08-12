@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable, of} from "rxjs";
 import {CategoryService} from "../services/category.service";
-import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {ProductService} from "../services/product.service";
 import {map, startWith} from "rxjs/operators";
 import {AuthService} from "../services/auth.service";
@@ -48,20 +48,41 @@ export class ProductCreateComponent implements OnInit {
       name: [''],
       description: [''],
       price: [''],
-      category: ''
+      category: '',
+      images: this.initImages()
     })
+  }
+
+  private initImages() {
+    let imageArray = this.fb.array([]);
+    imageArray.push(this.fb.control(''));
+    return imageArray;
+  }
+
+  get images() {
+    return this.form.get('images') as FormArray;
+  }
+
+  addImage() {
+    this.images.push(this.fb.control(''));
   }
 
   sendForm() {
     this.productService.save(
-     {
+      {
         name: this.form.get('name').value,
         description: this.form.get('description').value,
         price: this.form.get('price').value,
         category: {
           id: this.form.get('category').value
-        }
+        },
+        images: this.form.get('images').value
       }
     ).subscribe(res => alert('Wysłano'));
   }
+
+  removeImage(i: number) {
+    this.images.removeAt(i);
+  }
+
 }

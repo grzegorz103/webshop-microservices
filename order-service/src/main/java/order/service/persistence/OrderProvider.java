@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface OrderProvider {
 
-    Page<OrderDTO> getAll(Pageable pageable);
+    Page<OrderOut> getAll(Pageable pageable);
 
     OrderDTO getById(Long id);
 
