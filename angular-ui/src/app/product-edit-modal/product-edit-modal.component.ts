@@ -21,7 +21,7 @@ export class ProductEditModalComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      id: [this.product.name],
+      id: [this.product.id],
       name: [this.product.name],
       category: this.fb.group({
         id: [this.product.category.id]
@@ -43,7 +43,8 @@ export class ProductEditModalComponent implements OnInit {
   }
 
   update() {
-  this.
+  this.productService.update(this.form.value)
+    .subscribe(res=>alert('Product updated!'))
   }
 
 }

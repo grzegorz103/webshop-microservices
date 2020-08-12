@@ -33,4 +33,9 @@ export class ProductService {
   getById(id: string) {
     return this.httpClient.get(<any>(environment.apiUrl + 'products/products/' + id));
   }
+
+  update(product: any) {
+    return this.httpClient.put<any>(environment.apiUrl + 'products/products/' + product.id, product);
+  }
+
 }
