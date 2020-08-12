@@ -55,7 +55,10 @@
         <a class="list-group-item list-group-item-action flex-column align-items-start">
           <div class="d-flex w-100 justify-content-between" [routerLink]="['/products', product.id]">
             <h5 class="mb-2 h5">{{product.name}}</h5>
-            <small>{{product.category.name}}</small>
+            <small>{{product.category.name}}   <button class="btn-warning"
+                                                       style="border-radius: 5px; border:none; padding: 5px 10px;box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.16)"
+                                                       (click)="edit(product)">Edit
+            </button></small>
           </div>
           <div class="row" style="text-align: justify">
             <div class="col-md-10" style="display: inline-block" [routerLink]="['/products', product.id]">

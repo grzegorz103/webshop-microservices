@@ -1,0 +1,51 @@
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#centralModalSm">
+  Edit
+</button>
+
+<!-- Central Modal Small -->
+<div class="modal fade moda" id="centralModalSm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+
+  <!-- Change class .modal-sm to change the size of the modal -->
+  <div class="modal-dialog modal-lg" role="document">
+
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title w-100" id="myModalLabel">{{product.name}}</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="form">
+          <mat-form-field class="col-md-8">
+            <mat-label>Name</mat-label>
+            <input matInput type="text" formControlName="name">
+          </mat-form-field>
+          <mat-form-field class="col-md-4">
+            <mat-label>Price</mat-label>
+            <input matInput type="text" formControlName="price">
+          </mat-form-field>
+          <mat-form-field class="col-md-12">
+            <mat-label>Description</mat-label>
+            <textarea matInput type="text" formControlName="description" rows="6"></textarea>
+          </mat-form-field>
+          <div formArrayName="images">
+            <mat-form-field class="col-12" *ngFor="let image of images.controls; let i = index">
+              <mat-label>Image {{i}}</mat-label>
+              <input matInput type="text" [formControlName]="i">
+            </mat-form-field>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary btn-sm" (click)="update()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Central Modal Small -->

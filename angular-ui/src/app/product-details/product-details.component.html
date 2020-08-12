@@ -1,8 +1,9 @@
 <div *ngIf="product">
   <app-cart-window></app-cart-window>
   <div class="card">
-    <div class="card-header font-weight-bold h3">
+    <div class="card-header font-weight-bold h3 d-flex">
       {{product.name}}
+      <app-product-edit-modal *ngIf="product" class="ml-auto"[product]="product"></app-product-edit-modal>
     </div>
 
     <div class="card-body">

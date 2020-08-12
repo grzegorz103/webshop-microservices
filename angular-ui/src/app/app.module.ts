@@ -29,6 +29,7 @@ import {NgxGalleryModule} from "ngx-gallery";
 import {LightboxModule} from "ngx-lightbox";
 import { EventLogComponent } from './event-log/event-log.component';
 import { OrdersAdminComponent } from './orders-admin/orders-admin.component';
+import { ProductEditModalComponent } from './product-edit-modal/product-edit-modal.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { OrdersAdminComponent } from './orders-admin/orders-admin.component';
     AddressComponent,
     ProductDetailsComponent,
     EventLogComponent,
-    OrdersAdminComponent
+    OrdersAdminComponent,
+    ProductEditModalComponent
   ],
   imports: [
     BrowserModule,
