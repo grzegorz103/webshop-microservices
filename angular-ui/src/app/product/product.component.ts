@@ -54,4 +54,8 @@ export class ProductComponent implements OnInit {
       .subscribe(res => this.categories = res);
   }
 
+  edit(product: any) {
+
+  }
+
 }

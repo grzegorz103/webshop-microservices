@@ -16,4 +16,11 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findAllByProductIdsIsContaining(Long productId);
 
     Page<Order> findAllByUserId(String userId, Pageable pageable);
+
+    @Query("select o from Order o " +
+            "order by " +
+            "case when cast(o.orderState as text) like 'CREATED' then 1 else 2 end, " +
+            " o.creationDate")
+    Page<Order> findAllByDateDescSorted(Pageable pageable);
+
 }

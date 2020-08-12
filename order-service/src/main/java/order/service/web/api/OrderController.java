@@ -19,7 +19,7 @@ public class OrderController {
     }
 
     @GetMapping
-    public Page<OrderDTO> getAll(Pageable pageable) {
+    public Page<OrderOut> getAll(Pageable pageable) {
         return orderService.getAll(pageable);
     }
 

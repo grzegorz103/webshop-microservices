@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import order.service.persistence.OrderState;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -26,5 +27,7 @@ public class OrderOut {
     private BigDecimal totalCost;
 
     private String userId;
+
+    private OrderState orderState;
 
 }

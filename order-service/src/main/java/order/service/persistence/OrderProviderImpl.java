@@ -23,9 +23,9 @@ public class OrderProviderImpl implements OrderProvider {
     }
 
     @Override
-    public Page<OrderDTO> getAll(Pageable pageable) {
-        return orderRepository.findAll(pageable)
-                .map(orderMapper::toDTO);
+    public Page<OrderOut> getAll(Pageable pageable) {
+        return orderRepository.findAllByDateDescSorted(pageable)
+                .map(orderMapper::toOrderOut);
     }
 
     @Override

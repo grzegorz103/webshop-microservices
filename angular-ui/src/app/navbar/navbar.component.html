@@ -11,16 +11,21 @@
           <a class="nav-link" routerLink="/products">Products <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/products/create" *ngIf="auth.hasPermission('role:admin')">Add new</a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link" routerLink="/orders" *ngIf="auth.loggedIn">Orders</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/address" *ngIf="auth.loggedIn">Address</a>
-        </li> <li class="nav-item">
-        <a class="nav-link" routerLink="/events" *ngIf="auth.loggedIn">Event logs</a>
-      </li>
+        </li>
+
+        <li class="nav-item dropdown" *ngIf="auth.hasPermission('role:admin')">
+          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+             aria-haspopup="true" aria-expanded="false">Admin panel</a>
+          <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" routerLink="/orders/admin">Orders</a>
+            <a class="dropdown-item"  routerLink="/events">Event logs</a>
+            <a class="dropdown-item"  routerLink="/products/create" >Create product</a>
+          </div>
+        </li>
       </ul>
     </div>
     <button class="btn btn-success btn-rounded py-2" (click)="auth.login()" *ngIf="!auth.loggedIn">Log In</button>

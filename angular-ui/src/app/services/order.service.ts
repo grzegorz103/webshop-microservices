@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 
@@ -10,7 +10,7 @@ export class OrderService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getAll(page: number | 0, size: number | 20, name: string) {
+  getAllByUser(page: number | 0, size: number | 20, name: string) {
     let params = new HttpParams();
     params = params.append('size', String(size));
     params = params.append('page', String(page));
@@ -18,8 +18,20 @@ export class OrderService {
     return this.httpClient.get<any>(environment.apiUrl + 'orders/orders/users');
   }
 
-  create(order: any){
+  create(order: any) {
     return this.httpClient.post(<any>(environment.apiUrl + 'orders/orders'), order);
+  }
+
+  getAll(page: number | 0, size: number | 20, name: string) {
+    let params = new HttpParams();
+    params = params.append('size', String(size));
+    params = params.append('page', String(page));
+
+    return this.httpClient.get<any>(environment.apiUrl + 'orders/orders');
+  }
+
+  update(order: any) {
+    return this.httpClient.put<any>(environment.apiUrl + 'orders/orders/' + order.id, order);
   }
 
 }
