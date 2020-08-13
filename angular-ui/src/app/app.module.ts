@@ -30,6 +30,7 @@ import {LightboxModule} from "ngx-lightbox";
 import { EventLogComponent } from './event-log/event-log.component';
 import { OrdersAdminComponent } from './orders-admin/orders-admin.component';
 import { ProductEditModalComponent } from './product-edit-modal/product-edit-modal.component';
+import {NgbCarouselModule} from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
   declarations: [
@@ -51,7 +52,7 @@ import { ProductEditModalComponent } from './product-edit-modal/product-edit-mod
     BrowserModule,
     AppRoutingModule, MatInputModule, MatIconModule,
     HttpClientModule, FormsModule, ReactiveFormsModule, LightboxModule,
-    BrowserAnimationsModule, MatOptionModule, MatAutocompleteModule, MatSelectModule, MatExpansionModule, MatCardModule, MatButtonModule, MatListModule
+    BrowserAnimationsModule, MatOptionModule, MatAutocompleteModule, MatSelectModule, MatExpansionModule, MatCardModule, MatButtonModule, MatListModule, NgbCarouselModule
   ],
   providers: [  {
     provide: HTTP_INTERCEPTORS,

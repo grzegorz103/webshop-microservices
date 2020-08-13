@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-index',
@@ -7,7 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IndexComponent implements OnInit {
 
-  constructor() { }
+  carouselInfo = [
+    {url: '/assets/2.jpg', title: 'Webshop online', info: 'Best webshop in the web'},
+    {url: '/assets/1.jpg', title: 'Webshop online', info: 'Built in microservices architecture!'},
+  ];
+
+  constructor() {
+  }
 
   ngOnInit() {
   }
