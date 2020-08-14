@@ -1,13 +1,14 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
-import {IndexComponent} from "./index/index.component";
-import {ProductComponent} from "./product/product.component";
-import {ProductCreateComponent} from "./product-create/product-create.component";
-import {OrdersComponent} from "./orders/orders.component";
-import {AddressComponent} from "./address/address.component";
-import {ProductDetailsComponent} from "./product-details/product-details.component";
-import {EventLogComponent} from "./event-log/event-log.component";
-import {OrdersAdminComponent} from "./orders-admin/orders-admin.component";
+import {IndexComponent} from "./shared/index/index.component";
+import {ProductComponent} from "./core/product/product-list/product.component";
+import {ProductCreateComponent} from "./core/product/product-create/product-create.component";
+import {OrdersComponent} from "./core/order/orders/orders.component";
+import {AddressComponent} from "./core/address/address.component";
+import {ProductDetailsComponent} from "./core/product/product-details/product-details.component";
+import {EventLogComponent} from "./core/event-log/event-log.component";
+import {OrdersAdminComponent} from "./core/order/orders-admin/orders-admin.component";
+import {ManagementComponent} from "./core/management/management.component";
 
 
 const routes: Routes = [
@@ -16,6 +17,7 @@ const routes: Routes = [
   {path: 'products/:id', component: ProductDetailsComponent},
   {path: 'orders', component: OrdersComponent},
   {path: 'address', component: AddressComponent},
+  {path: 'manage', component: ManagementComponent},
   {path: 'events', component: EventLogComponent},
   {path: 'orders/admin', component: OrdersAdminComponent},
   {path: '**', component: IndexComponent}
