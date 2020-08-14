@@ -1,29 +1,31 @@
 <div *ngIf="product">
-  <app-cart-window></app-cart-window>
-  <div class="card">
-    <div class="card-header font-weight-bold h3 d-flex">
-      {{product.name}}
-      <app-product-edit-modal *ngIf="product" class="ml-auto"[product]="product"></app-product-edit-modal>
-    </div>
+  <div class="container">
+    <app-cart-window></app-cart-window>
+    <div class="card">
+      <div class="card-header font-weight-bold h3 d-flex">
+        {{product.name}}
+        <app-product-edit-modal *ngIf="product" class="ml-auto" [product]="product"></app-product-edit-modal>
+      </div>
 
-    <div class="card-body">
-      {{product.description}}
-      <hr>
-      <div class="row">
+      <div class="card-body">
+        {{product.description}}
+        <hr>
+        <div class="row">
         <span *ngFor="let image of images; let i=index" class="col-md-3">
           <img [src]="image.thumb" (click)="open(i)" class="image" alt=""/>
         </span>
+        </div>
       </div>
-    </div>
 
-    <div class="card-footer">
-      <div class="text-center">
+      <div class="card-footer">
+        <div class="text-center">
         <span class="font-weight-bold h3">
       {{product.price | currency: 'USD'}}
         </span>
-        <button (click)="addToCart()" class="btn btn-success">Add to cart</button>
+          <button (click)="addToCart()" class="btn btn-success">Add to cart</button>
+        </div>
       </div>
     </div>
-  </div>
 
+  </div>
 </div>

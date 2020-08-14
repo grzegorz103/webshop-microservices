@@ -1,28 +1,30 @@
-<div class="card">
-  <div class="card-header text-center h2">
-    Orders
-  </div>
-  <div class="card-body">
-    <mat-expansion-panel hideToggle style="width:100%" *ngFor="let order of orders; let i = index">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          {{order.id}}
-        </mat-panel-title>
-        <mat-panel-description>
-          {{order.totalCost | currency: 'USD'}}
-        </mat-panel-description>
-        <mat-panel-description>
-          {{order.creationDate | date}}
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-      <div *ngFor="let product of order.productDTOs" class="d-flex justify-content-around product-item">
-        <img [src]="product.images[0]"
-             style="width: 200px; height: auto; max-height: 200px">
-        <span>{{product.name}}</span> <span>{{product.price | currency: 'USD'}}</span>
+<div class="container">
+  <div class="card">
+    <div class="card-header text-center h2">
+      Orders
+    </div>
+    <div class="card-body">
+      <mat-expansion-panel hideToggle style="width:100%" *ngFor="let order of orders; let i = index">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{order.id}}
+          </mat-panel-title>
+          <mat-panel-description>
+            {{order.totalCost | currency: 'USD'}}
+          </mat-panel-description>
+          <mat-panel-description>
+            {{order.creationDate | date}}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div *ngFor="let product of order.productDTOs" class="d-flex justify-content-around product-item">
+          <img [src]="product.images[0]"
+               style="width: 200px; height: auto; max-height: 200px">
+          <span>{{product.name}}</span> <span>{{product.price | currency: 'USD'}}</span>
+        </div>
+      </mat-expansion-panel>
+      <div *ngIf="orders && orders.length === 0">
+        You do not have any orders yet
       </div>
-    </mat-expansion-panel>
-    <div *ngIf="orders && orders.length === 0">
-      You do not have any orders yet
     </div>
   </div>
 </div>

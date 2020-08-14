@@ -1,56 +1,58 @@
-<div class="card">
-  <div class="card-header text-center h2">
-    Add new product
-  </div>
-  <form [formGroup]="form" (ngSubmit)="sendForm()">
-    <div class="card-body">
-      <div class="row">
-        <div class="col-md-6">
-          <mat-form-field>
-            <mat-label>Name</mat-label>
-            <input matInput type="text" formControlName="name">
-          </mat-form-field>
-        </div>
-
-        <div class="col-md-6">
-          <mat-form-field>
-            <mat-label>Price</mat-label>
-            <input matInput type="number" formControlName="price">
-            <span matPrefix>$&nbsp;</span>
-            <span matSuffix>.00</span>
-          </mat-form-field>
-        </div>
-      </div>
-      <mat-form-field>
-        <mat-label>Category</mat-label>
-        <mat-select formControlName="category">
-          <mat-option *ngFor="let category of categories" [value]="category.id">
-            {{category.name}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-label>Description</mat-label>
-        <textarea placeholder="Description" matInput type="text" rows="5" formControlName="description"></textarea>
-      </mat-form-field>
-
-      <div formArrayName="images">
-        <div *ngFor="let image of images.controls; let i = index">
-          <mat-form-field class="col-10">
-            <mat-label>Image {{i + 1}}</mat-label>
-            <input placeholder="Image" matInput type="text" [formControlName]="i">
-            <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="removeImage(i)">
-              <mat-icon>close</mat-icon>
-            </button>
-          </mat-form-field>
-      <img [src]="images.controls[i].value" class="col-2">
-        </div>
-      </div>
-      <button type="button" class="btn btn-primary text-center" (click)="addImage()">Add image</button>
-      <div class="text-center">
-        <button type="submit" class="btn btn-primary text-center">Add</button>
-      </div>
+<div class="container">
+  <div class="card">
+    <div class="card-header text-center h2">
+      Add new product
     </div>
-  </form>
+    <form [formGroup]="form" (ngSubmit)="sendForm()">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field>
+              <mat-label>Name</mat-label>
+              <input matInput type="text" formControlName="name">
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-6">
+            <mat-form-field>
+              <mat-label>Price</mat-label>
+              <input matInput type="number" formControlName="price">
+              <span matPrefix>$&nbsp;</span>
+              <span matSuffix>.00</span>
+            </mat-form-field>
+          </div>
+        </div>
+        <mat-form-field>
+          <mat-label>Category</mat-label>
+          <mat-select formControlName="category">
+            <mat-option *ngFor="let category of categories" [value]="category.id">
+              {{category.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Description</mat-label>
+          <textarea placeholder="Description" matInput type="text" rows="5" formControlName="description"></textarea>
+        </mat-form-field>
+
+        <div formArrayName="images">
+          <div *ngFor="let image of images.controls; let i = index">
+            <mat-form-field class="col-10">
+              <mat-label>Image {{i + 1}}</mat-label>
+              <input placeholder="Image" matInput type="text" [formControlName]="i">
+              <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="removeImage(i)">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+            <img [src]="images.controls[i].value" class="col-2">
+          </div>
+        </div>
+        <button type="button" class="btn btn-primary text-center" (click)="addImage()">Add image</button>
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary text-center">Add</button>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>

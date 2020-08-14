@@ -31,6 +31,7 @@ import { EventLogComponent } from './event-log/event-log.component';
 import { OrdersAdminComponent } from './orders-admin/orders-admin.component';
 import { ProductEditModalComponent } from './product-edit-modal/product-edit-modal.component';
 import {NgbCarouselModule} from "@ng-bootstrap/ng-bootstrap";
+import { ManagementComponent } from './management/management.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import {NgbCarouselModule} from "@ng-bootstrap/ng-bootstrap";
     ProductDetailsComponent,
     EventLogComponent,
     OrdersAdminComponent,
-    ProductEditModalComponent
+    ProductEditModalComponent,
+    ManagementComponent
   ],
   imports: [
     BrowserModule,
