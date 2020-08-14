@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {EventService} from "../services/event.service";
-import {environment} from "../../environments/environment";
+import {EventService} from "../../services/event.service";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-event-log',

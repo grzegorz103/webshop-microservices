@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {ProductService} from "../services/product.service";
+import {ProductService} from "../../../services/product.service";
 import {FormControl} from "@angular/forms";
-import {CartWindowService} from "../services/cart-window.service";
-import {CategoryService} from "../category.service";
+import {CartWindowService} from "../../../services/cart-window.service";
+import {CategoryService} from "../../../category.service";
 
 @Component({
   selector: 'app-product',

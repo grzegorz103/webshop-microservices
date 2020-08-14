@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {OrderService} from "../services/order.service";
-import {CartWindowService} from "../services/cart-window.service";
+import {OrderService} from "../../../services/order.service";
+import {CartWindowService} from "../../../services/cart-window.service";
 
 @Component({
   selector: 'app-orders-admin',

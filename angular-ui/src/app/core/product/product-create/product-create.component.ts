@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable, of} from "rxjs";
-import {CategoryService} from "../services/category.service";
+import {CategoryService} from "../../../services/category.service";
 import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
-import {ProductService} from "../services/product.service";
+import {ProductService} from "../../../services/product.service";
 import {map, startWith} from "rxjs/operators";
-import {AuthService} from "../services/auth.service";
+import {AuthService} from "../../../services/auth.service";
 
 @Component({
   selector: 'app-product-create',

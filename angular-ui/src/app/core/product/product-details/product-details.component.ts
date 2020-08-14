@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {ProductService} from "../services/product.service";
-import {CartWindowService} from "../services/cart-window.service";
+import {ProductService} from "../../../services/product.service";
+import {CartWindowService} from "../../../services/cart-window.service";
 import {Lightbox} from "ngx-lightbox";
 
 @Component({

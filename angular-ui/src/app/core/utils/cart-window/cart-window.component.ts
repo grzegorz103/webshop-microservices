@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {MatListOption} from "@angular/material/list";
-import {CartWindowService} from "../services/cart-window.service";
-import {OrderService} from "../services/order.service";
+import {CartWindowService} from "../../../services/cart-window.service";
+import {OrderService} from "../../../services/order.service";
 
 @Component({
   selector: 'app-cart-window',
