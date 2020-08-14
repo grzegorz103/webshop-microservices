@@ -1,0 +1,35 @@
+<nav class="navbar navbar-expand-lg navbar-dark primary-color">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/">Home</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" routerLink="/products">Products <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/orders" *ngIf="auth.loggedIn">Orders</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/address" *ngIf="auth.loggedIn">Address</a>
+        </li>
+
+        <li class="nav-item dropdown" *ngIf="auth.hasPermission('role:admin')">
+          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+             aria-haspopup="true" aria-expanded="false">Admin panel</a>
+          <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" routerLink="/orders/admin">Orders</a>
+            <a class="dropdown-item" routerLink="/events">Event logs</a>
+            <a class="dropdown-item" routerLink="/products/create">Create product</a>
+         <!--   <a class="dropdown-item" routerLink="/manage">Manage</a>
+         --> </div>
+        </li>
+      </ul>
+    </div>
+    <button class="btn btn-success btn-rounded py-2" (click)="auth.login()" *ngIf="!auth.loggedIn">Log In</button>
+    <button class="btn btn-success btn-rounded py-2" (click)="auth.logout()" *ngIf="auth.loggedIn">Log Out</button>
+  </div>
+</nav>
