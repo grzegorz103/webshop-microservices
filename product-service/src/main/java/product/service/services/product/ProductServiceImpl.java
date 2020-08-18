@@ -84,6 +84,7 @@ public class ProductServiceImpl implements ProductService {
         fromDb.setName(productDTO.getName());
         fromDb.setCategory(categoryProvider.getOne(productDTO.getCategory().getId()));
         fromDb.setPrice(productDTO.getPrice());
+        fromDb.setImages(productDTO.getImages());
         fromDb.setDescription(productDTO.getDescription());
         return productProvider.save(fromDb);
     }
